@@ -2,7 +2,6 @@ package com.tofu.bean.plugin.money;
 
 import com.tofu.bean.mariadb.contract.db.mysql.JavaMySql;
 import com.tofu.bean.plugin.money.domain.contract.PlayerMoneyInteractor;
-import com.tofu.bean.plugin.money.domain.impl.PlayerMoneyInteractorImpl;
 import com.tofu.bean.plugin.money.executor.DecreasedMoneyValueExecutor;
 import com.tofu.bean.plugin.money.executor.IncreasedMoneyValueExecutor;
 import com.tofu.bean.plugin.money.executor.ShowMoneyValueExecutor;
@@ -18,9 +17,7 @@ public class MoneyModuleCommand implements CommandExecutor {
     private final IncreasedMoneyValueExecutor increasedMoneyValueExecutor;
     private final DecreasedMoneyValueExecutor decreasedMoneyValueExecutor;
 
-    public MoneyModuleCommand(JavaMySql db) {
-        PlayerMoneyInteractor playerMoneyInteractor = new PlayerMoneyInteractorImpl(db);
-
+    public MoneyModuleCommand(PlayerMoneyInteractor playerMoneyInteractor) {
         this.showMoneyValueExecutor = new ShowMoneyValueExecutor(playerMoneyInteractor);
         this.increasedMoneyValueExecutor = new IncreasedMoneyValueExecutor(playerMoneyInteractor);
         this.decreasedMoneyValueExecutor = new DecreasedMoneyValueExecutor(playerMoneyInteractor);
@@ -36,11 +33,13 @@ public class MoneyModuleCommand implements CommandExecutor {
                 showMoneyValueExecutor.executor(player);
             } else if (strings.length == 1 && strings[0].equals("help")) {
                 showCommandManual(player);
+                return true;
             } else if (strings.length == 2 && strings[0].equals("add")) {
 
                 try {
                     Double addValue = Double.parseDouble(strings[1]);
                     increasedMoneyValueExecutor.executor(player, addValue);
+                    return true;
                 } catch (NumberFormatException exec) {
                     player.sendMessage(ChatColor.YELLOW + "please input format number");
                 }
@@ -50,6 +49,7 @@ public class MoneyModuleCommand implements CommandExecutor {
                 try {
                     Double addValue = Double.parseDouble(strings[1]);
                     decreasedMoneyValueExecutor.executor(player, addValue);
+                    return true;
                 } catch (NumberFormatException exec) {
                     player.sendMessage(ChatColor.YELLOW + "please input format number");
                 }

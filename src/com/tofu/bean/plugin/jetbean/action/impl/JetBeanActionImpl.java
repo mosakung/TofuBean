@@ -24,20 +24,4 @@ public class TeleportActionImpl implements TeleportAction {
     public void accessTeleportPlayer(Player player, Player targetPlayer) {
 //        targetPlayer.sendMessage(ChatColor.AQUA + player.getName() + " would to teleport to you");
     }
-
-    @Override
-    public void forceTeleportPlayerCalDistance(Player player, Player targetPlayer) {
-        Location pl = player.getLocation();
-        Location plt = targetPlayer.getLocation();
-
-        Double diffP2X = pow(pl.getBlockX() - plt.getBlockX(), 2);
-        Double diffP2Y = pow(pl.getBlockY() - plt.getBlockY(), 2);
-        Double diffP2Z = pow(pl.getBlockZ() - plt.getBlockZ(), 2);
-
-        Double diffDistance = sqrt(diffP2X + diffP2Y + diffP2Z);
-
-        player.sendMessage(ChatColor.AQUA + "diff distance are " + diffDistance + " block");
-
-        player.teleport(plt);
-    }
 }

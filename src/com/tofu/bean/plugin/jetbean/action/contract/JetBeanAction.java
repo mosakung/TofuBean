@@ -8,6 +8,4 @@ public interface TeleportAction {
 
     void forceTeleportPlayer(Player player, Player targetPlayer);
     void accessTeleportPlayer(Player player, Player targetPlayer);
-
-    void forceTeleportPlayerCalDistance(Player player, Player targetPlayer);
 }

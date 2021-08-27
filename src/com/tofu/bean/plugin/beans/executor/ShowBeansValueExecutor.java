@@ -9,6 +9,6 @@ public record ShowMoneyValueExecutor(PlayerMoneyInteractor playerMoneyInteractor
     public void executor(Player player) {
         Double money = playerMoneyInteractor.getValue(player.getName());
 
-        player.sendMessage(ChatColor.AQUA + "money : " + money.toString());
+        player.sendMessage(ChatColor.AQUA + "beans : " + ChatColor.GOLD + money.toString());
     }
 }

@@ -1,0 +1,9 @@
+name: TofuTryPlugin
+version: 1
+main: com.tofu.bean.presentation.Main
+
+commands:
+  money:
+    description: Displays help
+  tpc:
+    description: Displays help

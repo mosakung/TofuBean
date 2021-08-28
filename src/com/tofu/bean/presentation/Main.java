@@ -9,6 +9,7 @@ import com.tofu.bean.plugin.beans.BeansModuleCommand;
 import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.plugin.beans.domain.impl.PlayerBeansInteractorImpl;
 import com.tofu.bean.plugin.jetbean.JetBeanModuleCommand;
+import com.tofu.bean.plugin.ore.event.OnBreakOreEvent;
 import com.tofu.bean.plugin.permission.BeanPermissionModuleCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +31,8 @@ public class Main extends JavaPlugin {
         this.getCommand("beans").setExecutor(beansModuleCommand);
         this.getCommand("beanp").setExecutor(beanPermissionModuleCommand);
 
+        // event //
+        Bukkit.getPluginManager().registerEvents(new OnBreakOreEvent(playerBeansInteractor), this);
         Bukkit.getPluginManager().registerEvents(new OnMobDeadEvent(playerBeansInteractor), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerDead(playerBeansInteractor), this);
 

@@ -14,12 +14,13 @@ public class JavaMySqlImpl implements JavaMySql {
     final String mos = "jdbc:mysql://127.0.0.1:3306/minecraft-tofu-bean";
 
     final String username = "root";
+    final String password = "root";
 
     private Connection connection;
 
     public JavaMySqlImpl() {
         try {
-            this.connection = DriverManager.getConnection(mos, username, "");
+            this.connection = DriverManager.getConnection(mos, username, "root");
             System.out.println("Connected database...");
         } catch (SQLException exec) {
             System.out.println("Can't connect to database");

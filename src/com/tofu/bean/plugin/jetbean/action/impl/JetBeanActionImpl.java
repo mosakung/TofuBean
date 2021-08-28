@@ -1,27 +1,23 @@
-package com.tofu.bean.plugin.teleport.action.impl;
+package com.tofu.bean.plugin.jetbean.action.impl;
 
-import com.tofu.bean.plugin.teleport.action.contract.TeleportAction;
-import org.bukkit.ChatColor;
+import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
-
-public class TeleportActionImpl implements TeleportAction {
+public class JetBeanActionImpl implements JetBeanAction {
 
     @Override
-    public void forceTeleport(Player player, Location location) {
+    public void forceJetBeanLocation(Player player, Location location) {
         player.teleport(location);
     }
 
     @Override
-    public void forceTeleportPlayer(Player player, Player targetPlayer) {
+    public void forceJetBeanPlayer(Player player, Player targetPlayer) {
         player.teleport(targetPlayer.getLocation());
     }
 
     @Override
-    public void accessTeleportPlayer(Player player, Player targetPlayer) {
+    public void accessJetBeanPlayer(Player player, Player targetPlayer) {
 //        targetPlayer.sendMessage(ChatColor.AQUA + player.getName() + " would to teleport to you");
     }
 }

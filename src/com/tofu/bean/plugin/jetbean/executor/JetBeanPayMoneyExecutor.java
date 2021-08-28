@@ -1,20 +1,21 @@
-package com.tofu.bean.plugin.teleport.executor;
+package com.tofu.bean.plugin.jetbean.executor;
 
-import com.tofu.bean.plugin.money.domain.contract.PlayerMoneyInteractor;
-import com.tofu.bean.plugin.teleport.action.contract.TeleportAction;
+import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
+import com.tofu.bean.utils.UtilsBean;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+public class JetBeanPayMoneyExecutor extends UtilsBean {
 
-public record JetBeanPayMoneyExecutor(
-        TeleportAction teleportAction, PlayerMoneyInteractor playerMoneyInteractor
-) {
+    private final JetBeanAction jetBeanAction;
+    private final PlayerBeansInteractor playerBeansInteractor;
+
+    public JetBeanPayMoneyExecutor(JetBeanAction jetBeanAction, PlayerBeansInteractor playerBeansInteractor) {
+        this.jetBeanAction = jetBeanAction;
+        this.playerBeansInteractor = playerBeansInteractor;
+    }
 
     public void executor(Player player, Player target) {
         String name = player.getName();
@@ -22,22 +23,16 @@ public record JetBeanPayMoneyExecutor(
         Location pl = player.getLocation();
         Location plt = target.getLocation();
 
-        Double diffP2X = pow(pl.getBlockX() - plt.getBlockX(), 2);
-        Double diffP2Y = pow(pl.getBlockY() - plt.getBlockY(), 2);
-        Double diffP2Z = pow(pl.getBlockZ() - plt.getBlockZ(), 2);
+        Double cost = doublerFormatP2(calDistanceXYZ(pl, plt) * 2.5);
 
-        Double diffDistance = sqrt(diffP2X + diffP2Y + diffP2Z);
-
-        Double cost = diffDistance * 2.5;
-
-        Double pocketValue = playerMoneyInteractor.getValue(name);
+        Double pocketValue = playerBeansInteractor.getValue(name);
 
         if (pocketValue >= cost) {
-            playerMoneyInteractor.decreasedValue(name, cost);
+            playerBeansInteractor.decreasedValue(name, cost);
 
             player.sendMessage(ChatColor.GOLD + "You are premium customer :)");
 
-            teleportAction.forceTeleportPlayer(player, target);
+            jetBeanAction.forceJetBeanPlayer(player, target);
         } else {
             player.sendMessage(ChatColor.DARK_RED + "So poor check you money first :(");
         }

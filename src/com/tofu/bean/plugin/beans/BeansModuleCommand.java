@@ -1,59 +1,82 @@
-package com.tofu.bean.plugin.money;
+package com.tofu.bean.plugin.beans;
 
-import com.tofu.bean.mariadb.contract.db.mysql.JavaMySql;
-import com.tofu.bean.plugin.money.domain.contract.PlayerMoneyInteractor;
-import com.tofu.bean.plugin.money.executor.DecreasedMoneyValueExecutor;
-import com.tofu.bean.plugin.money.executor.IncreasedMoneyValueExecutor;
-import com.tofu.bean.plugin.money.executor.ShowMoneyValueExecutor;
+import com.tofu.bean.data.PermissionBean;
+import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.plugin.beans.executor.DecreasedBeansValueExecutor;
+import com.tofu.bean.plugin.beans.executor.GiveBean2FriendExecutor;
+import com.tofu.bean.plugin.beans.executor.IncreasedBeansValueExecutor;
+import com.tofu.bean.plugin.beans.executor.ShowBeansValueExecutor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class MoneyModuleCommand implements CommandExecutor {
+public class BeansModuleCommand implements CommandExecutor {
 
-    private final ShowMoneyValueExecutor showMoneyValueExecutor;
-    private final IncreasedMoneyValueExecutor increasedMoneyValueExecutor;
-    private final DecreasedMoneyValueExecutor decreasedMoneyValueExecutor;
+    private final ShowBeansValueExecutor showBeansValueExecutor;
+    private final IncreasedBeansValueExecutor increasedBeansValueExecutor;
+    private final DecreasedBeansValueExecutor decreasedBeansValueExecutor;
+    private final GiveBean2FriendExecutor giveBean2FriendExecutor;
 
-    public MoneyModuleCommand(PlayerMoneyInteractor playerMoneyInteractor) {
-        this.showMoneyValueExecutor = new ShowMoneyValueExecutor(playerMoneyInteractor);
-        this.increasedMoneyValueExecutor = new IncreasedMoneyValueExecutor(playerMoneyInteractor);
-        this.decreasedMoneyValueExecutor = new DecreasedMoneyValueExecutor(playerMoneyInteractor);
+    public BeansModuleCommand(PlayerBeansInteractor playerBeansInteractor) {
+        this.showBeansValueExecutor = new ShowBeansValueExecutor(playerBeansInteractor);
+        this.increasedBeansValueExecutor = new IncreasedBeansValueExecutor(playerBeansInteractor);
+        this.decreasedBeansValueExecutor = new DecreasedBeansValueExecutor(playerBeansInteractor);
+        this.giveBean2FriendExecutor = new GiveBean2FriendExecutor(playerBeansInteractor);
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (commandSender instanceof Player) {
+        if (commandSender instanceof Player player) {
 
-            Player player = (Player) commandSender;
+            final boolean developer = player.hasPermission(PermissionBean.DEVELOPER.getPermission());
 
             if (strings.length == 0) {
-                showMoneyValueExecutor.executor(player);
+                showBeansValueExecutor.executor(player);
+                return true;
             } else if (strings.length == 1 && strings[0].equals("help")) {
                 showCommandManual(player);
                 return true;
-            } else if (strings.length == 2 && strings[0].equals("add")) {
+            } else if(strings.length == 3 && strings[0].equals("give")) {
 
                 try {
-                    Double addValue = Double.parseDouble(strings[1]);
-                    increasedMoneyValueExecutor.executor(player, addValue);
+                    Player target = Bukkit.getPlayer(strings[1]);
+                    Double beanCost = Double.parseDouble(strings[2]);
+
+                    if(target != null) {
+                        giveBean2FriendExecutor.executor(player, target, beanCost);
+                    } else {
+                        player.sendMessage(ChatColor.YELLOW + "not found player name");
+                    }
+
                     return true;
                 } catch (NumberFormatException exec) {
                     player.sendMessage(ChatColor.YELLOW + "please input format number");
                 }
+            } else if(developer) {
+                if (strings.length == 2 && strings[0].equals("add")) {
 
-            } else if (strings.length == 2 && strings[0].equals("de")) {
+                    try {
+                        Double addValue = Double.parseDouble(strings[1]);
+                        increasedBeansValueExecutor.executor(player, addValue);
+                        return true;
+                    } catch (NumberFormatException exec) {
+                        player.sendMessage(ChatColor.YELLOW + "please input format number");
+                    }
 
-                try {
-                    Double addValue = Double.parseDouble(strings[1]);
-                    decreasedMoneyValueExecutor.executor(player, addValue);
-                    return true;
-                } catch (NumberFormatException exec) {
-                    player.sendMessage(ChatColor.YELLOW + "please input format number");
+                } else if (strings.length == 2 && strings[0].equals("de")) {
+
+                    try {
+                        Double addValue = Double.parseDouble(strings[1]);
+                        decreasedBeansValueExecutor.executor(player, addValue);
+                        return true;
+                    } catch (NumberFormatException exec) {
+                        player.sendMessage(ChatColor.YELLOW + "please input format number");
+                    }
+
                 }
-
             } else {
                 onInvalidCommand(player);
             }
@@ -63,7 +86,7 @@ public class MoneyModuleCommand implements CommandExecutor {
     }
 
     private void onInvalidCommand(Player player) {
-        player.sendMessage(ChatColor.YELLOW + "invalid command /money help");
+        player.sendMessage(ChatColor.YELLOW + "invalid command /beans help");
     }
 
     private void showCommandManual(Player player) {

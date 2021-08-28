@@ -1,16 +1,16 @@
-package com.tofu.bean.plugin.money.domain.impl;
+package com.tofu.bean.plugin.beans.domain.impl;
 
 import com.tofu.bean.mariadb.contract.db.mysql.JavaMySql;
-import com.tofu.bean.plugin.money.domain.contract.PlayerMoneyInteractor;
+import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PlayerMoneyInteractorImpl implements PlayerMoneyInteractor {
+public class PlayerBeansInteractorImpl implements PlayerBeansInteractor {
 
     private final JavaMySql db;
 
-    public PlayerMoneyInteractorImpl(JavaMySql db) {
+    public PlayerBeansInteractorImpl(JavaMySql db) {
         this.db = db;
     }
 

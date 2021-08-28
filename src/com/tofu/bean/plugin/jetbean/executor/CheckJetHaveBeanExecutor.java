@@ -1,25 +1,25 @@
-package com.tofu.bean.plugin.teleport.executor;
+package com.tofu.bean.plugin.jetbean.executor;
 
+import com.tofu.bean.utils.UtilsBean;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+import java.text.DecimalFormat;
 
-public record CheckJetHaveBeanExecutor() {
+public class CheckJetHaveBeanExecutor extends UtilsBean {
+
+    private static DecimalFormat df = new DecimalFormat("0.00");
+
     public void executor(Player player, Player target) {
+
         Location pl = player.getLocation();
         Location plt = target.getLocation();
 
-        Double diffP2X = pow(pl.getBlockX() - plt.getBlockX(), 2);
-        Double diffP2Y = pow(pl.getBlockY() - plt.getBlockY(), 2);
-        Double diffP2Z = pow(pl.getBlockZ() - plt.getBlockZ(), 2);
+        Double cost = calDistanceXYZ(pl, plt) * 2.5;
 
-        Double diffDistance = sqrt(diffP2X + diffP2Y + diffP2Z);
+        Double formatCost = doublerFormatP2(cost);;
 
-        Double cost = diffDistance * 2.5;
-
-        player.sendMessage(ChatColor.AQUA + "jet cost " + ChatColor.GOLD + cost.toString() + ChatColor.AQUA + " beans" );
+        player.sendMessage(ChatColor.AQUA + "jet cost " + ChatColor.GOLD + formatCost.toString() + ChatColor.AQUA + " beans" );
     }
 }

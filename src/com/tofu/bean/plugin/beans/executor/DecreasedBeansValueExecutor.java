@@ -1,11 +1,11 @@
-package com.tofu.bean.plugin.money.executor;
+package com.tofu.bean.plugin.beans.executor;
 
-import com.tofu.bean.plugin.money.domain.contract.PlayerMoneyInteractor;
+import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
 import org.bukkit.entity.Player;
 
-public record DecreasedMoneyValueExecutor(PlayerMoneyInteractor playerMoneyInteractor) {
+public record DecreasedBeansValueExecutor(PlayerBeansInteractor playerBeansInteractor) {
 
     public void executor(Player player, Double value) {
-        playerMoneyInteractor.decreasedValue(player.getName(), value);
+        playerBeansInteractor.decreasedValue(player.getName(), value);
     }
 }

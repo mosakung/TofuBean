@@ -1,21 +1,22 @@
 package com.tofu.bean.plugin.jobs.event;
 
-import com.tofu.bean.plugin.money.domain.contract.PlayerMoneyInteractor;
+import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.utils.mapper.EntityMapper;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-public class OnMobDead implements Listener {
+public class OnMobDeadEvent implements Listener {
 
-    private final PlayerMoneyInteractor playerMoneyInteractor;
-    private final EntityMapper mapper;
+    private PlayerBeansInteractor playerBeansInteractor;
+    private EntityMapper mapper;
 
-    public OnMobDead(PlayerMoneyInteractor playerMoneyInteractor) {
+    public OnMobDeadEvent(PlayerBeansInteractor playerBeansInteractor) {
         this.mapper = new EntityMapper();
-        this.playerMoneyInteractor = playerMoneyInteractor;
+        this.playerBeansInteractor = playerBeansInteractor;
     }
 
     @EventHandler
@@ -23,8 +24,13 @@ public class OnMobDead implements Listener {
         Entity mob = e.getEntity();
         Player killer = e.getEntity().getKiller();
 
-        Double value = mapper.mapper2Value(mob.getType());
+        if(killer != null) {
+            Double value = mapper.mapper2Value(mob.getType());
 
-        playerMoneyInteractor.increasedValue(killer.getName(), value);
+            if(value != 0) {
+                playerBeansInteractor.increasedValue(killer.getName(), value);
+                killer.sendMessage(ChatColor.AQUA + "+ " + ChatColor.GOLD + value.toString() + ChatColor.AQUA + " Beans");
+            }
+        }
     }
 }

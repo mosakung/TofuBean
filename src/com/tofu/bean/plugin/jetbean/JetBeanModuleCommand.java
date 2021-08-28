@@ -1,10 +1,10 @@
-package com.tofu.bean.plugin.teleport;
+package com.tofu.bean.plugin.jetbean;
 
-import com.tofu.bean.plugin.money.domain.contract.PlayerMoneyInteractor;
-import com.tofu.bean.plugin.teleport.action.contract.TeleportAction;
-import com.tofu.bean.plugin.teleport.action.impl.TeleportActionImpl;
-import com.tofu.bean.plugin.teleport.executor.CheckJetHaveBeanExecutor;
-import com.tofu.bean.plugin.teleport.executor.JetBeanPayMoneyExecutor;
+import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
+import com.tofu.bean.plugin.jetbean.action.impl.JetBeanActionImpl;
+import com.tofu.bean.plugin.jetbean.executor.CheckJetHaveBeanExecutor;
+import com.tofu.bean.plugin.jetbean.executor.JetBeanPayMoneyExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,15 +12,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class TeleportModuleCommand implements CommandExecutor {
+public class JetBeanModuleCommand implements CommandExecutor {
 
     private final JetBeanPayMoneyExecutor jetBeanPayMoneyExecutor;
     private final CheckJetHaveBeanExecutor checkJetHaveBeanExecutor;
 
-    public TeleportModuleCommand(PlayerMoneyInteractor playerMoneyInteractor) {
-        TeleportAction teleportAction = new TeleportActionImpl();
+    public JetBeanModuleCommand(PlayerBeansInteractor playerBeansInteractor) {
+        JetBeanAction jetBeanAction = new JetBeanActionImpl();
 
-        this.jetBeanPayMoneyExecutor = new JetBeanPayMoneyExecutor(teleportAction, playerMoneyInteractor);
+        this.jetBeanPayMoneyExecutor = new JetBeanPayMoneyExecutor(jetBeanAction, playerBeansInteractor);
         this.checkJetHaveBeanExecutor = new CheckJetHaveBeanExecutor();
     }
 

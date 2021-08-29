@@ -8,11 +8,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import static com.tofu.bean.utils.mapper.EntityMapper.mapMobMonster2Value;
 
-public class OnMobDeadEvent {
+public class KillMobRewardEvent {
 
     private PlayerBeansInteractor playerBeansInteractor;
 
-    public OnMobDeadEvent(
+    public KillMobRewardEvent(
             PlayerBeansInteractor playerBeansInteractor
     ) {
         this.playerBeansInteractor = playerBeansInteractor;

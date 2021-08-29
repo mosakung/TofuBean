@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.PermissionAttachment;
 
-public class OnDeveloperLoginEvent {
+public class PlayerDeveloperLoginEvent {
 
     public void call(PlayerJoinEvent event) {
         Player player = event.getPlayer();

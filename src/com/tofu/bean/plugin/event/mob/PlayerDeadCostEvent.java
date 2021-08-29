@@ -7,12 +7,12 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.Random;
 
-public class OnPlayerDeadEvent {
+public class PlayerDeadCostEvent {
 
     private final PlayerBeansInteractor playerBeansInteractor;
     private final Random rand = new Random();
 
-    public OnPlayerDeadEvent(PlayerBeansInteractor playerBeansInteractor) {
+    public PlayerDeadCostEvent(PlayerBeansInteractor playerBeansInteractor) {
         this.playerBeansInteractor = playerBeansInteractor;
     }
 
@@ -22,9 +22,14 @@ public class OnPlayerDeadEvent {
 
         int percentLost = rand.nextInt(10);
 
-        Double pocket =  playerBeansInteractor.getValue(name);
+        Double pocketValue =  playerBeansInteractor.getValue(name);
 
-        Double preLostPocket = (pocket / 100 * percentLost);
+        if (pocketValue == null) {
+            player.sendMessage(ChatColor.DARK_RED + "Something Error (PlayerDeadCostEvent) tell BearSouL : pocketValue == null");
+            return;
+        }
+
+        Double preLostPocket = (pocketValue / 100 * percentLost);
 
         playerBeansInteractor.decreasedValue(name, preLostPocket);
 

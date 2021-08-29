@@ -7,8 +7,13 @@ import org.bukkit.entity.Player;
 public record ShowBeansValueExecutor(PlayerBeansInteractor playerBeansInteractor) {
 
     public void executor(Player player) {
-        Double money = playerBeansInteractor.getValue(player.getName());
+        Double pocketValue = playerBeansInteractor.getValue(player.getName());
 
-        player.sendMessage(ChatColor.AQUA + "beans : " + ChatColor.GOLD + money.toString());
+        if (pocketValue == null) {
+            player.sendMessage(ChatColor.DARK_RED + "Something Error (ShowBeansValueExecutor) tell BearSouL : pocketValue == null");
+            return;
+        }
+
+        player.sendMessage(ChatColor.AQUA + "beans : " + ChatColor.GOLD + pocketValue.toString());
     }
 }

@@ -16,11 +16,11 @@ import org.bukkit.inventory.PlayerInventory;
 
 import static com.tofu.bean.utils.mapper.CropMapper.*;
 
-public class HarvestCropEvent {
+public class PlayerHarvestCropRewardEvent {
 
     private PlayerBeansInteractor playerBeansInteractor;
 
-    public HarvestCropEvent(
+    public PlayerHarvestCropRewardEvent(
             PlayerBeansInteractor playerBeansInteractor
     ) {
         this.playerBeansInteractor = playerBeansInteractor;

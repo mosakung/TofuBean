@@ -9,7 +9,7 @@ import org.bukkit.entity.HumanEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeansTabCompleterCommand implements TabCompleter {
+public class BeansTabCompleter implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {

@@ -7,18 +7,25 @@ import org.bukkit.entity.Player;
 public record GiveBean2FriendExecutor(PlayerBeansInteractor playerBeansInteractor) {
 
     public void executor(Player player, Player target, Double beansCost) {
-        String pName = player.getName();
-        String tName = target.getName();
+        String playerName = player.getName();
+        String targetName = target.getName();
 
-        if(beansCost > playerBeansInteractor.getValue(pName)) {
+        Double pocketValue = playerBeansInteractor.getValue(playerName);
+
+        if (pocketValue == null) {
+            player.sendMessage(ChatColor.DARK_RED + "Something Error (GiveBean2FriendExecutor) tell BearSouL : pocketValue == null");
+            return;
+        }
+
+        if(beansCost > pocketValue) {
             player.sendMessage(ChatColor.AQUA + "enough beans for give");
             return;
         }
 
-        playerBeansInteractor.decreasedValue(pName, beansCost);
-        player.sendMessage(ChatColor.AQUA + "you given to " + tName + " " +  ChatColor.GOLD + beansCost.toString() + ChatColor.AQUA + " beans");
+        playerBeansInteractor.decreasedValue(playerName, beansCost);
+        player.sendMessage(ChatColor.AQUA + "you given to " + targetName + " " +  ChatColor.GOLD + beansCost.toString() + ChatColor.AQUA + " beans");
 
-        playerBeansInteractor.increasedValue(tName, beansCost);
-        player.sendMessage(ChatColor.AQUA + "you got from " + pName + " " + ChatColor.GOLD + beansCost.toString() + ChatColor.AQUA + " beans");
+        playerBeansInteractor.increasedValue(targetName, beansCost);
+        player.sendMessage(ChatColor.AQUA + "you got from " + playerName + " " + ChatColor.GOLD + beansCost.toString() + ChatColor.AQUA + " beans");
     }
 }

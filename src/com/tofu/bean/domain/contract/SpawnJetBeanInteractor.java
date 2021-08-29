@@ -1,6 +1,6 @@
 package com.tofu.bean.domain.contract;
 
-public interface SpawnBeanInteractor {
+public interface SpawnJetBeanInteractor {
 
     String getSpawnLocation(String spawnName);
     void insertSpawnLocation(String spawnName, String spawnLocation);

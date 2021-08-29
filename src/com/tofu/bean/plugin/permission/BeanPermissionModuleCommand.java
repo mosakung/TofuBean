@@ -46,12 +46,12 @@ public record BeanPermissionModuleCommand() implements CommandExecutor {
         PermissionAttachment targetAttachment = target.addAttachment(Main.getInstance());
 
         if (strings[0].equals("add")) {
-            if (strings[1].equals("developer")) {
+            if (strings[1].equals(PermissionBean.DEVELOPER.getValue())) {
                 targetAttachment.setPermission(PermissionBean.DEVELOPER.getPermission(), true);
                 player.sendMessage(ChatColor.AQUA + "set permission developer " + target.getName());
             }
         } else if (strings[0].equals("de")) {
-            if (strings[1].equals("developer")) {
+            if (strings[1].equals(PermissionBean.DEVELOPER.getValue())) {
                 targetAttachment.setPermission(PermissionBean.DEVELOPER.getPermission(), false);
                 player.sendMessage(ChatColor.AQUA + "delete permission developer " + target.getName());
             }

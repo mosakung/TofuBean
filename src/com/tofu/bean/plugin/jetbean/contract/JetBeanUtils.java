@@ -50,6 +50,11 @@ public class JetBeanUtils {
 
         Double pocketValue = playerBeansInteractor.getValue(playerName);
 
+        if (pocketValue == null) {
+            player.sendMessage(ChatColor.DARK_RED + "Something Error (JetBeanUtils (jetBean)) tell BearSouL : pocketValue == null");
+            return;
+        }
+
         if (pocketValue >= cost) {
             playerBeansInteractor.decreasedValue(playerName, cost);
 

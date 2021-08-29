@@ -1,11 +1,13 @@
 package com.tofu.bean.plugin.event;
 
+import com.tofu.bean.domain.contract.DeadJetBeanInteractor;
 import com.tofu.bean.domain.contract.PlayerBeansInteractor;
-import com.tofu.bean.plugin.event.fram.HarvestCropEvent;
-import com.tofu.bean.plugin.event.mob.OnMobDeadEvent;
-import com.tofu.bean.plugin.event.mob.OnPlayerDeadEvent;
-import com.tofu.bean.plugin.event.ore.OnBreakOreEvent;
-import com.tofu.bean.plugin.event.permission.OnDeveloperLoginEvent;
+import com.tofu.bean.plugin.event.fram.PlayerHarvestCropRewardEvent;
+import com.tofu.bean.plugin.event.mob.KillMobRewardEvent;
+import com.tofu.bean.plugin.event.mob.PlayerDeadCostEvent;
+import com.tofu.bean.plugin.event.mob.PlayerDeadSaveLocationEvent;
+import com.tofu.bean.plugin.event.ore.PlayerPickOreRewardEvent;
+import com.tofu.bean.plugin.event.permission.PlayerDeveloperLoginEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -14,40 +16,46 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class TaskModuleEvent implements Listener {
-    private final OnMobDeadEvent onMobDeadEvent;
-    private final OnPlayerDeadEvent onPlayerDeadEvent;
-    private final OnBreakOreEvent onBreakOreEvent;
-    private final HarvestCropEvent harvestCropEvent;
-    private final OnDeveloperLoginEvent onDeveloperLoginEvent;
+    private final KillMobRewardEvent killMobRewardEvent;
+    private final PlayerDeadCostEvent playerDeadCostEvent;
+    private final PlayerPickOreRewardEvent playerPickOreRewardEvent;
+    private final PlayerHarvestCropRewardEvent playerHarvestCropRewardEvent;
+    private final PlayerDeveloperLoginEvent playerDeveloperLoginEvent;
+    private final PlayerDeadSaveLocationEvent playerDeadSaveLocationEvent;
 
     public TaskModuleEvent(
-            PlayerBeansInteractor playerBeansInteractor
+            PlayerBeansInteractor playerBeansInteractor,
+            DeadJetBeanInteractor deadJetBeanInteractor
     ) {
-        this.onMobDeadEvent = new OnMobDeadEvent(playerBeansInteractor);
-        this.onPlayerDeadEvent =  new OnPlayerDeadEvent(playerBeansInteractor);
-        this.onBreakOreEvent = new OnBreakOreEvent(playerBeansInteractor);
-        this.harvestCropEvent = new HarvestCropEvent(playerBeansInteractor);
-        this.onDeveloperLoginEvent = new OnDeveloperLoginEvent();
+        this.killMobRewardEvent = new KillMobRewardEvent(playerBeansInteractor);
+        this.playerDeadCostEvent =  new PlayerDeadCostEvent(playerBeansInteractor);
+        this.playerPickOreRewardEvent = new PlayerPickOreRewardEvent(playerBeansInteractor);
+        this.playerHarvestCropRewardEvent = new PlayerHarvestCropRewardEvent(playerBeansInteractor);
+        this.playerDeveloperLoginEvent = new PlayerDeveloperLoginEvent();
+        this.playerDeadSaveLocationEvent = new PlayerDeadSaveLocationEvent(deadJetBeanInteractor);
     }
 
     @EventHandler
-    public void onPlayerKillModGetBean(EntityDeathEvent event) {
-        onMobDeadEvent.call(event);
+    public void provideKillMobRewardEvent(EntityDeathEvent event) {
+        killMobRewardEvent.call(event);
     }
 
     @EventHandler
-    public void OnPlayerDeadLostBean(PlayerDeathEvent event) {
-        onPlayerDeadEvent.call(event);
+    public void providePlayerDeadCostEvent(PlayerDeathEvent event) {
+        playerDeadCostEvent.call(event);
     }
 
     @EventHandler
-    public void onOreBreakGetBean(BlockBreakEvent event){
-        onBreakOreEvent.call(event);
+    public void providePlayerPickOreRewardEvent(BlockBreakEvent event){
+        playerPickOreRewardEvent.call(event);
     }
 
     @EventHandler
-    public void harvestCropAutomate(BlockBreakEvent event) { harvestCropEvent.call(event); }
+    public void providePlayerHarvestCropRewardEvent(BlockBreakEvent event) { playerHarvestCropRewardEvent.call(event); }
 
     @EventHandler
-    public void onDeveloperLogin(PlayerJoinEvent event) { onDeveloperLoginEvent.call(event); }
+    public void providePlayerDeveloperLoginEvent(PlayerJoinEvent event) { playerDeveloperLoginEvent.call(event); }
+
+    @EventHandler
+    public void providePlayerDeadSaveLocationEvent(PlayerDeathEvent event) { playerDeadSaveLocationEvent.call(event); }
 }

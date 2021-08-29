@@ -1,12 +1,11 @@
 package com.tofu.bean.plugin.jetbean;
 
 import com.tofu.bean.domain.contract.PlayerBeansInteractor;
-import com.tofu.bean.domain.contract.SpawnBeanInteractor;
+import com.tofu.bean.domain.contract.SpawnJetBeanInteractor;
 import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import com.tofu.bean.plugin.jetbean.action.impl.JetBeanActionImpl;
 import com.tofu.bean.plugin.jetbean.executor.spawn.CostJetBeanSpawn;
 import com.tofu.bean.plugin.jetbean.executor.spawn.JetBean2Spawn;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -14,23 +13,25 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpawnBeanModuleCommand implements CommandExecutor {
+import static com.tofu.bean.utils.parser.LocationParser.location2String;
 
-    private final SpawnBeanInteractor spawnBeanInteractor;
+public class SpawnJetBeanModuleCommand implements CommandExecutor {
+
+    private final SpawnJetBeanInteractor spawnJetBeanInteractor;
 
     private final JetBean2Spawn jetBean2Spawn;
     private final CostJetBeanSpawn costJetBeanSpawn;
 
-    public SpawnBeanModuleCommand(
+    public SpawnJetBeanModuleCommand(
             PlayerBeansInteractor playerBeansInteractor,
-            SpawnBeanInteractor spawnBeanInteractor
+            SpawnJetBeanInteractor spawnJetBeanInteractor
     ) {
-        this.spawnBeanInteractor = spawnBeanInteractor;
+        this.spawnJetBeanInteractor = spawnJetBeanInteractor;
 
         JetBeanAction jetBeanAction = new JetBeanActionImpl();
 
-        this.jetBean2Spawn = new JetBean2Spawn(jetBeanAction, playerBeansInteractor);
-        this.costJetBeanSpawn = new CostJetBeanSpawn(jetBeanAction, playerBeansInteractor);
+        this.jetBean2Spawn = new JetBean2Spawn(jetBeanAction, playerBeansInteractor, spawnJetBeanInteractor);
+        this.costJetBeanSpawn = new CostJetBeanSpawn(jetBeanAction, playerBeansInteractor, spawnJetBeanInteractor);
     }
 
     @Override
@@ -39,7 +40,6 @@ public class SpawnBeanModuleCommand implements CommandExecutor {
         if (commandSender instanceof Player player) {
 
             if (strings.length == 0) {
-                player.sendMessage(ChatColor.AQUA + "1");
                 spawn(player, "default");
                 return true;
             }
@@ -60,6 +60,9 @@ public class SpawnBeanModuleCommand implements CommandExecutor {
                     costSpawn(player, "default");
                     return true;
                 }
+
+                spawn(player, strings[0]);
+                return true;
             }
 
             if (strings.length == 2) {
@@ -85,67 +88,42 @@ public class SpawnBeanModuleCommand implements CommandExecutor {
         return false;
     }
 
-    private Boolean spawn(Player player, String spawnName) {
-        final Boolean condition = spawnBeanInteractor.hasSpawnName(spawnName);
-
-        if (!condition) {
-            showNotFoundSpawn(player);
-            return false;
-        }
-
-        String rawLocation = spawnBeanInteractor.getSpawnLocation(spawnName);
-
-        String[] partLocation = rawLocation.split("!");
-
-        Location location = new Location(
-                Bukkit.getServer().getWorld(partLocation[3]),
-                Integer.parseInt(partLocation[0]),
-                Integer.parseInt(partLocation[1]),
-                Integer.parseInt(partLocation[2])
-        );
-
-        jetBean2Spawn.execute(player, location);
-
-        return true;
-    }
-
-    private void setSpawn(Player player, String spawnName) {
-        Location location = player.getLocation();
-
-        String rawLocation = location.getBlockX() + "!" + location.getBlockY() + "!" +
-                location.getBlockZ() + "!" + location.getWorld().getName();
-
-        final Boolean condition = spawnBeanInteractor.hasSpawnName(spawnName);
-
-        if (condition) {
-            spawnBeanInteractor.updateSpawnLocation(spawnName, rawLocation);
-        } else {
-            spawnBeanInteractor.insertSpawnLocation(spawnName, rawLocation);
-        }
-
-        player.sendMessage(ChatColor.AQUA + "set spawn : " + spawnName);
-    }
-
-    private void costSpawn(Player player, String spawnName) {
-        final Boolean condition = spawnBeanInteractor.hasSpawnName(spawnName);
+    private void spawn(Player player, String spawnName) {
+        final Boolean condition = spawnJetBeanInteractor.hasSpawnName(spawnName);
 
         if (!condition) {
             showNotFoundSpawn(player);
             return;
         }
 
-        String rawLocation = spawnBeanInteractor.getSpawnLocation(spawnName);
+        jetBean2Spawn.execute(player, spawnName);
+    }
 
-        String[] partLocation = rawLocation.split("!");
+    private void setSpawn(Player player, String spawnName) {
+        Location location = player.getLocation();
 
-        Location location = new Location(
-                Bukkit.getServer().getWorld(partLocation[3]),
-                Integer.parseInt(partLocation[0]),
-                Integer.parseInt(partLocation[1]),
-                Integer.parseInt(partLocation[2])
-        );
+        String rawLocation = location2String(location);
 
-        costJetBeanSpawn.executor(player, location);
+        final Boolean condition = spawnJetBeanInteractor.hasSpawnName(spawnName);
+
+        if (condition) {
+            spawnJetBeanInteractor.updateSpawnLocation(spawnName, rawLocation);
+        } else {
+            spawnJetBeanInteractor.insertSpawnLocation(spawnName, rawLocation);
+        }
+
+        player.sendMessage(ChatColor.AQUA + "set spawn : " + spawnName);
+    }
+
+    private void costSpawn(Player player, String spawnName) {
+        final Boolean condition = spawnJetBeanInteractor.hasSpawnName(spawnName);
+
+        if (!condition) {
+            showNotFoundSpawn(player);
+            return;
+        }
+
+        costJetBeanSpawn.executor(player, spawnName);
     }
 
     private void onInvalidCommand(Player player) {

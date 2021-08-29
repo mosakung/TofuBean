@@ -6,13 +6,21 @@ import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public record PlayerBeansInteractorImpl(
-        JavaMySql db
-) implements PlayerBeansInteractor {
+public class PlayerBeansInteractorImpl extends DefaultInteractorImpl implements PlayerBeansInteractor    {
+
+    private final JavaMySql db;
+
+    public PlayerBeansInteractorImpl(
+            JavaMySql db
+    ) {
+        super(db);
+        this.db = db;
+    }
+
 
     @Override
     public Double getValue(String playerName) {
-        final int playerId = fetchPocketId(playerName);
+        final int playerId = getPlayerId(playerName);
 
         if (playerId == -1) {
             return null;
@@ -38,7 +46,7 @@ public record PlayerBeansInteractorImpl(
 
     @Override
     public void increasedValue(String playerName, Double value) {
-        final int playerId = fetchPocketId(playerName);
+        final int playerId = getPlayerId(playerName);
 
         if (playerId == -1) {
             return;
@@ -53,7 +61,7 @@ public record PlayerBeansInteractorImpl(
 
     @Override
     public void decreasedValue(String playerName, Double value) {
-        final int playerId = fetchPocketId(playerName);
+        final int playerId = getPlayerId(playerName);
 
         if (playerId == -1) {
             return;
@@ -64,34 +72,5 @@ public record PlayerBeansInteractorImpl(
         String[] dataSet = {};
 
         db.modified(decreasedValueById, dataSet);
-    }
-
-    private int fetchPocketId(String playerName) {
-        String selectIdByPlayerName = "SELECT `user_id` FROM `user` WHERE `username` = ?";
-
-        String[] playerNames = {playerName};
-
-        final ResultSet result = this.db.fetch(selectIdByPlayerName, playerNames);
-
-        try {
-            if (result.next()) {
-                return result.getInt("user_id");
-            } else {
-                return createPocket(playerName);
-            }
-        } catch (SQLException e) {
-            System.out.println("fetch Pocket Id error");
-            e.printStackTrace();
-        }
-
-        return -1;
-    }
-
-    private int createPocket(String playerName) {
-        String createPocket = "INSERT `user` (`username`) VALUES (?)";
-
-        String[] PocketSet = {playerName};
-
-        return db.insert(createPocket, PocketSet);
     }
 }

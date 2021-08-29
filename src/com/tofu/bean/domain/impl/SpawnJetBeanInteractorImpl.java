@@ -1,14 +1,14 @@
 package com.tofu.bean.domain.impl;
 
 import com.tofu.bean.mariadb.contract.db.mysql.JavaMySql;
-import com.tofu.bean.domain.contract.SpawnBeanInteractor;
+import com.tofu.bean.domain.contract.SpawnJetBeanInteractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public record SpawnBeanInteractorImpl(
+public record SpawnJetBeanInteractorImpl(
         JavaMySql db
-) implements SpawnBeanInteractor {
+) implements SpawnJetBeanInteractor {
 
     @Override
     public String getSpawnLocation(String spawnName) {

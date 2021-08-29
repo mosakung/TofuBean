@@ -9,11 +9,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import static com.tofu.bean.utils.mapper.OreMapper.mapOre2Value;
 
-public class OnBreakOreEvent {
+public class PlayerPickOreRewardEvent {
 
     private PlayerBeansInteractor playerBeansInteractor;
 
-    public OnBreakOreEvent(
+    public PlayerPickOreRewardEvent(
             PlayerBeansInteractor playerBeansInteractor
     ) {
         this.playerBeansInteractor = playerBeansInteractor;

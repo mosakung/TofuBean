@@ -1,18 +1,14 @@
-package com.tofu.bean.plugin.beans.domain.impl;
+package com.tofu.bean.domain.impl;
 
 import com.tofu.bean.mariadb.contract.db.mysql.JavaMySql;
-import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PlayerBeansInteractorImpl implements PlayerBeansInteractor {
-
-    private final JavaMySql db;
-
-    public PlayerBeansInteractorImpl(JavaMySql db) {
-        this.db = db;
-    }
+public record PlayerBeansInteractorImpl(
+        JavaMySql db
+) implements PlayerBeansInteractor {
 
     @Override
     public Double getValue(String playerName) {

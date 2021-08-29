@@ -10,5 +10,8 @@ commands:
   jetbean:
     description: bean shoot to location
 
-  beanp:
-    description: set permission
+  spawn:
+    description: jet bean to spawn & set
+
+  tofu:
+    description: set & de permission

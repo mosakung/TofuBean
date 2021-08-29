@@ -1,21 +1,16 @@
 package com.tofu.bean.plugin.permission;
 
 import com.tofu.bean.data.PermissionBean;
+import com.tofu.bean.presentation.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.plugin.Plugin;
 
-public class BeanPermissionModuleCommand implements CommandExecutor {
-
-    private final Plugin plugin;
-
-    public BeanPermissionModuleCommand(Plugin plugin) {
-        this.plugin = plugin;
-    }
+public record BeanPermissionModuleCommand() implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -24,20 +19,19 @@ public class BeanPermissionModuleCommand implements CommandExecutor {
             if (strings.length == 1 && strings[0].equals("help")) {
                 showCommandManual(player);
                 return true;
+            } else if (strings.length == 2) {
+
+                getterAndSetterPermission(strings, player, player);
+
             } else if (strings.length == 3) {
 
-                PermissionAttachment attachment = player.addAttachment(plugin);
+                Player target = Bukkit.getPlayer(strings[2]);
 
-                if (strings[0].equals("add")) {
-                    if (strings[1].equals("developer")) {
-                        attachment.setPermission(PermissionBean.DEVELOPER.getPermission(), true);
-                    }
-                } else if (strings[0].equals("de")) {
-                    if (strings[1].equals("developer")) {
-                        attachment.setPermission(PermissionBean.DEVELOPER.getPermission(), false);
-                    }
+                if (target == null) {
+                    player.sendMessage(ChatColor.YELLOW + "not found player name " + strings[2]);
+                    return false;
                 } else {
-                    onInvalidCommand(player);
+                    getterAndSetterPermission(strings, player, target);
                 }
 
             } else {
@@ -48,13 +42,33 @@ public class BeanPermissionModuleCommand implements CommandExecutor {
         return false;
     }
 
+    private void getterAndSetterPermission(String[] strings, Player player, Player target) {
+        PermissionAttachment targetAttachment = target.addAttachment(Main.getInstance());
+
+        if (strings[0].equals("add")) {
+            if (strings[1].equals("developer")) {
+                targetAttachment.setPermission(PermissionBean.DEVELOPER.getPermission(), true);
+                player.sendMessage(ChatColor.AQUA + "set permission developer " + target.getName());
+            }
+        } else if (strings[0].equals("de")) {
+            if (strings[1].equals("developer")) {
+                targetAttachment.setPermission(PermissionBean.DEVELOPER.getPermission(), false);
+                player.sendMessage(ChatColor.AQUA + "delete permission developer " + target.getName());
+            }
+        } else {
+            onInvalidCommand(player);
+        }
+    }
+
     private void onInvalidCommand(Player player) {
         player.sendMessage(ChatColor.YELLOW + "invalid command /beanp help");
     }
 
     private void showCommandManual(Player player) {
-        player.sendMessage(ChatColor.WHITE + "===== Manual Money Tofu Bean =====");
-        player.sendMessage(ChatColor.WHITE + "- /beanp add <permission name> <player name>");
-        player.sendMessage(ChatColor.WHITE + "- /beanp de <permission name> <player name>");
+        player.sendMessage(ChatColor.WHITE + "===== Manual Tofu Bean =====");
+        player.sendMessage(ChatColor.WHITE + "- /tofu add <permission name>");
+        player.sendMessage(ChatColor.WHITE + "- /tofu de <permission name>");
+        player.sendMessage(ChatColor.WHITE + "- /tofu add <permission name> <player name>");
+        player.sendMessage(ChatColor.WHITE + "- /tofu de <permission name> <player name>");
     }
 }

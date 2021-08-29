@@ -1,7 +1,7 @@
 package com.tofu.bean.plugin.beans;
 
 import com.tofu.bean.data.PermissionBean;
-import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.plugin.beans.executor.DecreasedBeansValueExecutor;
 import com.tofu.bean.plugin.beans.executor.GiveBean2FriendExecutor;
 import com.tofu.bean.plugin.beans.executor.IncreasedBeansValueExecutor;
@@ -90,9 +90,9 @@ public class BeansModuleCommand implements CommandExecutor {
     }
 
     private void showCommandManual(Player player) {
-        player.sendMessage(ChatColor.WHITE + "===== Manual Money Tofu Bean =====");
-        player.sendMessage(ChatColor.WHITE + "- /money");
-        player.sendMessage(ChatColor.WHITE + "- /money add <number>");
-        player.sendMessage(ChatColor.WHITE + "- /money de <number>");
+        player.sendMessage(ChatColor.WHITE + "===== Manual Tofu Bean =====");
+        player.sendMessage(ChatColor.WHITE + "- /beans");
+        player.sendMessage(ChatColor.WHITE + "- /beans add <number> (developer only)");
+        player.sendMessage(ChatColor.WHITE + "- /beans de <number> (developer only)");
     }
 }

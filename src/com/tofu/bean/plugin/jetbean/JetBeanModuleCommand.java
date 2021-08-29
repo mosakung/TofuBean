@@ -1,10 +1,10 @@
 package com.tofu.bean.plugin.jetbean;
 
-import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import com.tofu.bean.plugin.jetbean.action.impl.JetBeanActionImpl;
-import com.tofu.bean.plugin.jetbean.executor.CheckJetHaveBeanExecutor;
-import com.tofu.bean.plugin.jetbean.executor.JetBeanPayMoneyExecutor;
+import com.tofu.bean.plugin.jetbean.executor.original.CostJetBeanPlayer;
+import com.tofu.bean.plugin.jetbean.executor.original.JetBean2Player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,14 +14,14 @@ import org.bukkit.entity.Player;
 
 public class JetBeanModuleCommand implements CommandExecutor {
 
-    private final JetBeanPayMoneyExecutor jetBeanPayMoneyExecutor;
-    private final CheckJetHaveBeanExecutor checkJetHaveBeanExecutor;
+    private final JetBean2Player jetBean2Player;
+    private final CostJetBeanPlayer costJetBeanPlayer;
 
     public JetBeanModuleCommand(PlayerBeansInteractor playerBeansInteractor) {
         JetBeanAction jetBeanAction = new JetBeanActionImpl();
 
-        this.jetBeanPayMoneyExecutor = new JetBeanPayMoneyExecutor(jetBeanAction, playerBeansInteractor);
-        this.checkJetHaveBeanExecutor = new CheckJetHaveBeanExecutor();
+        this.jetBean2Player = new JetBean2Player(jetBeanAction, playerBeansInteractor);
+        this.costJetBeanPlayer = new CostJetBeanPlayer(jetBeanAction, playerBeansInteractor);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class JetBeanModuleCommand implements CommandExecutor {
                 Player playerTarget = Bukkit.getPlayer(strings[0]);
 
                 if (playerTarget != null) {
-                    jetBeanPayMoneyExecutor.executor(player, playerTarget);
+                    jetBean2Player.executor(player, playerTarget);
                     return true;
                 }else {
                     showNotFoundPlayer(player);
@@ -45,7 +45,7 @@ public class JetBeanModuleCommand implements CommandExecutor {
                 Player playerTarget = Bukkit.getPlayer(strings[1]);
 
                 if (playerTarget != null) {
-                    checkJetHaveBeanExecutor.executor(player, playerTarget);
+                    costJetBeanPlayer.executor(player, playerTarget);
                     return true;
                 } else {
                     showNotFoundPlayer(player);
@@ -63,7 +63,7 @@ public class JetBeanModuleCommand implements CommandExecutor {
     }
 
     private void showCommandManual(Player player) {
-        player.sendMessage(ChatColor.WHITE + "===== Manual Money Tofu Bean =====");
+        player.sendMessage(ChatColor.WHITE + "===== Manual Tofu Bean =====");
         player.sendMessage(ChatColor.WHITE + "- /jetbean <player target name>");
         player.sendMessage(ChatColor.WHITE + "- /jetbean cost <player target name>");
     }

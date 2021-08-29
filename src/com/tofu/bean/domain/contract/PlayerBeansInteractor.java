@@ -1,4 +1,4 @@
-package com.tofu.bean.plugin.beans.domain.contract;
+package com.tofu.bean.domain.contract;
 
 public interface PlayerBeansInteractor {
     Double getValue(String playerName);

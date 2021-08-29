@@ -10,14 +10,4 @@ public class JetBeanActionImpl implements JetBeanAction {
     public void forceJetBeanLocation(Player player, Location location) {
         player.teleport(location);
     }
-
-    @Override
-    public void forceJetBeanPlayer(Player player, Player targetPlayer) {
-        player.teleport(targetPlayer.getLocation());
-    }
-
-    @Override
-    public void accessJetBeanPlayer(Player player, Player targetPlayer) {
-//        targetPlayer.sendMessage(ChatColor.AQUA + player.getName() + " would to teleport to you");
-    }
 }

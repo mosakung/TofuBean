@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.beans.executor;
 
-import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

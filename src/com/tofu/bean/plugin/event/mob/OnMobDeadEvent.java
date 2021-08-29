@@ -1,33 +1,31 @@
-package com.tofu.bean.plugin.jobs.event;
+package com.tofu.bean.plugin.event.mob;
 
-import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
-import com.tofu.bean.utils.mapper.EntityMapper;
+import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-public class OnMobDeadEvent implements Listener {
+import static com.tofu.bean.utils.mapper.EntityMapper.mapMobMonster2Value;
+
+public class OnMobDeadEvent {
 
     private PlayerBeansInteractor playerBeansInteractor;
-    private EntityMapper mapper;
 
-    public OnMobDeadEvent(PlayerBeansInteractor playerBeansInteractor) {
-        this.mapper = new EntityMapper();
+    public OnMobDeadEvent(
+            PlayerBeansInteractor playerBeansInteractor
+    ) {
         this.playerBeansInteractor = playerBeansInteractor;
     }
 
-    @EventHandler
-    public void onPlayerKillMod(EntityDeathEvent e) {
+    public void call(EntityDeathEvent e) {
         Entity mob = e.getEntity();
         Player killer = e.getEntity().getKiller();
 
-        if(killer != null) {
-            Double value = mapper.mapper2Value(mob.getType());
+        if (killer != null) {
+            Double value = mapMobMonster2Value(mob.getType());
 
-            if(value != 0) {
+            if (value != 0) {
                 playerBeansInteractor.increasedValue(killer.getName(), value);
                 killer.sendMessage(ChatColor.AQUA + "+ " + ChatColor.GOLD + value.toString() + ChatColor.AQUA + " Beans");
             }

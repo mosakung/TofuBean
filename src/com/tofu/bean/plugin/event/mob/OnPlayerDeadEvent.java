@@ -1,26 +1,22 @@
-package com.tofu.bean.plugin.jobs.event;
+package com.tofu.bean.plugin.event.mob;
 
-import com.tofu.bean.data.PermissionBean;
-import com.tofu.bean.plugin.beans.domain.contract.PlayerBeansInteractor;
+import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.Random;
 
-public class OnPlayerDead implements Listener {
+public class OnPlayerDeadEvent {
 
     private final PlayerBeansInteractor playerBeansInteractor;
     private final Random rand = new Random();
 
-    public OnPlayerDead(PlayerBeansInteractor playerBeansInteractor) {
+    public OnPlayerDeadEvent(PlayerBeansInteractor playerBeansInteractor) {
         this.playerBeansInteractor = playerBeansInteractor;
     }
 
-    @EventHandler
-    public void OnPlayerDead(PlayerDeathEvent event) {
+    public void call(PlayerDeathEvent event) {
         Player player = event.getEntity();
         String name = player.getName();
 

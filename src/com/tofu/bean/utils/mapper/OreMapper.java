@@ -2,8 +2,9 @@ package com.tofu.bean.utils.mapper;
 
 import org.bukkit.Material;
 
-public class BlockMapper {
-    public double blockType(Material material) {
+public class OreMapper {
+
+    public static double mapOre2Value(Material material) {
 
         return switch (material) {
             case COAL_ORE -> 1;

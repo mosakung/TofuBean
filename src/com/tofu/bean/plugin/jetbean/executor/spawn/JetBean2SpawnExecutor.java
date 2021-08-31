@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.jetbean.executor.spawn;
 
-import com.tofu.bean.data.RateBeanVillage;
+import com.tofu.bean.data.CostRateBeansMethod;
 import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.domain.contract.SpawnJetBeanInteractor;
 import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 
 import static com.tofu.bean.utils.parser.LocationParser.string2Location;
 
-public class JetBean2Spawn extends JetBeanUtils {
+public class JetBean2SpawnExecutor extends JetBeanUtils {
 
     private final SpawnJetBeanInteractor spawnJetBeanInteractor;
 
-    public JetBean2Spawn(
+    public JetBean2SpawnExecutor(
             JetBeanAction jetBeanAction,
             PlayerBeansInteractor playerBeansInteractor,
             SpawnJetBeanInteractor spawnJetBeanInteractor
@@ -35,6 +35,6 @@ public class JetBean2Spawn extends JetBeanUtils {
 
         Location location = string2Location(rawLocation);
 
-        jetBean(player, location, RateBeanVillage.RATE_TELEPORT_TO_SPAWN.getRate());
+        jetBean(player, location, CostRateBeansMethod.RATE_TELEPORT_TO_SPAWN.getRate());
     }
 }

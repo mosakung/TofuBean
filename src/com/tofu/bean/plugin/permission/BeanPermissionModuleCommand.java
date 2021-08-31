@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.permission;
 
-import com.tofu.bean.data.PermissionBean;
+import com.tofu.bean.data.PermissionMethod;
 import com.tofu.bean.presentation.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +15,7 @@ public record BeanPermissionModuleCommand() implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if (commandSender instanceof Player player && player.hasPermission(PermissionBean.DEVELOPER.getPermission())) {
+        if (commandSender instanceof Player player && player.hasPermission(PermissionMethod.DEVELOPER.getPermission())) {
             if (strings.length == 1 && strings[0].equals("help")) {
                 showCommandManual(player);
                 return true;
@@ -46,13 +46,13 @@ public record BeanPermissionModuleCommand() implements CommandExecutor {
         PermissionAttachment targetAttachment = target.addAttachment(Main.getInstance());
 
         if (strings[0].equals("add")) {
-            if (strings[1].equals(PermissionBean.DEVELOPER.getValue())) {
-                targetAttachment.setPermission(PermissionBean.DEVELOPER.getPermission(), true);
+            if (strings[1].equals(PermissionMethod.DEVELOPER.getValue())) {
+                targetAttachment.setPermission(PermissionMethod.DEVELOPER.getPermission(), true);
                 player.sendMessage(ChatColor.AQUA + "set permission developer " + target.getName());
             }
         } else if (strings[0].equals("de")) {
-            if (strings[1].equals(PermissionBean.DEVELOPER.getValue())) {
-                targetAttachment.setPermission(PermissionBean.DEVELOPER.getPermission(), false);
+            if (strings[1].equals(PermissionMethod.DEVELOPER.getValue())) {
+                targetAttachment.setPermission(PermissionMethod.DEVELOPER.getPermission(), false);
                 player.sendMessage(ChatColor.AQUA + "delete permission developer " + target.getName());
             }
         } else {

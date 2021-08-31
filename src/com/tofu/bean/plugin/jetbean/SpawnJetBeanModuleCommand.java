@@ -4,8 +4,8 @@ import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.domain.contract.SpawnJetBeanInteractor;
 import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import com.tofu.bean.plugin.jetbean.action.impl.JetBeanActionImpl;
-import com.tofu.bean.plugin.jetbean.executor.spawn.CostJetBeanSpawn;
-import com.tofu.bean.plugin.jetbean.executor.spawn.JetBean2Spawn;
+import com.tofu.bean.plugin.jetbean.executor.spawn.CostJetBeanSpawnExecutor;
+import com.tofu.bean.plugin.jetbean.executor.spawn.JetBean2SpawnExecutor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -19,8 +19,8 @@ public class SpawnJetBeanModuleCommand implements CommandExecutor {
 
     private final SpawnJetBeanInteractor spawnJetBeanInteractor;
 
-    private final JetBean2Spawn jetBean2Spawn;
-    private final CostJetBeanSpawn costJetBeanSpawn;
+    private final JetBean2SpawnExecutor jetBean2SpawnExecutor;
+    private final CostJetBeanSpawnExecutor costJetBeanSpawnExecutor;
 
     public SpawnJetBeanModuleCommand(
             PlayerBeansInteractor playerBeansInteractor,
@@ -30,8 +30,8 @@ public class SpawnJetBeanModuleCommand implements CommandExecutor {
 
         JetBeanAction jetBeanAction = new JetBeanActionImpl();
 
-        this.jetBean2Spawn = new JetBean2Spawn(jetBeanAction, playerBeansInteractor, spawnJetBeanInteractor);
-        this.costJetBeanSpawn = new CostJetBeanSpawn(jetBeanAction, playerBeansInteractor, spawnJetBeanInteractor);
+        this.jetBean2SpawnExecutor = new JetBean2SpawnExecutor(jetBeanAction, playerBeansInteractor, spawnJetBeanInteractor);
+        this.costJetBeanSpawnExecutor = new CostJetBeanSpawnExecutor(jetBeanAction, playerBeansInteractor, spawnJetBeanInteractor);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class SpawnJetBeanModuleCommand implements CommandExecutor {
             return;
         }
 
-        jetBean2Spawn.execute(player, spawnName);
+        jetBean2SpawnExecutor.execute(player, spawnName);
     }
 
     private void setSpawn(Player player, String spawnName) {
@@ -123,7 +123,7 @@ public class SpawnJetBeanModuleCommand implements CommandExecutor {
             return;
         }
 
-        costJetBeanSpawn.executor(player, spawnName);
+        costJetBeanSpawnExecutor.executor(player, spawnName);
     }
 
     private void onInvalidCommand(Player player) {

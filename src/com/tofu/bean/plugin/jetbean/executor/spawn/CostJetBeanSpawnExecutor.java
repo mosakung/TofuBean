@@ -8,14 +8,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static com.tofu.bean.data.RateBeanVillage.RATE_TELEPORT_TO_PLAYER;
+import static com.tofu.bean.data.CostRateBeansMethod.RATE_TELEPORT_TO_PLAYER;
 import static com.tofu.bean.utils.parser.LocationParser.string2Location;
 
-public class CostJetBeanSpawn extends JetBeanUtils {
+public class CostJetBeanSpawnExecutor extends JetBeanUtils {
 
     private final SpawnJetBeanInteractor spawnJetBeanInteractor;
 
-    public CostJetBeanSpawn(
+    public CostJetBeanSpawnExecutor(
             JetBeanAction jetBeanAction,
             PlayerBeansInteractor playerBeansInteractor,
             SpawnJetBeanInteractor spawnJetBeanInteractor

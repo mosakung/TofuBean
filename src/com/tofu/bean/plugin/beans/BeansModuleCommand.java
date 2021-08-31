@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.beans;
 
-import com.tofu.bean.data.PermissionBean;
+import com.tofu.bean.data.PermissionMethod;
 import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.plugin.beans.executor.DecreasedBeansValueExecutor;
 import com.tofu.bean.plugin.beans.executor.GiveBean2FriendExecutor;
@@ -31,7 +31,7 @@ public class BeansModuleCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player player) {
 
-            final boolean developer = player.hasPermission(PermissionBean.DEVELOPER.getPermission());
+            final boolean developer = player.hasPermission(PermissionMethod.DEVELOPER.getPermission());
 
             if (strings.length == 0) {
                 showBeansValueExecutor.executor(player);

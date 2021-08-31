@@ -6,23 +6,19 @@ import com.tofu.bean.plugin.jetbean.contract.JetBeanUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static com.tofu.bean.data.RateBeanVillage.RATE_TELEPORT_TO_PLAYER;
+import static com.tofu.bean.data.CostRateBeansMethod.RATE_TELEPORT_TO_PLAYER;
 
-public class CostJetBeanPlayer extends JetBeanUtils {
+public class JetBean2PlayerExecutor extends JetBeanUtils {
 
-    public CostJetBeanPlayer(
-            JetBeanAction jetBeanAction,
-            PlayerBeansInteractor playerBeansInteractor) {
+    public JetBean2PlayerExecutor(JetBeanAction jetBeanAction, PlayerBeansInteractor playerBeansInteractor) {
+
         super(jetBeanAction, playerBeansInteractor);
     }
 
     public void executor(Player player, Player target) {
 
-        Location playerLocation = player.getLocation();
         Location targetLocation = target.getLocation();
 
-        Double cost = jetCost(playerLocation, targetLocation, RATE_TELEPORT_TO_PLAYER.getRate());
-
-        messageJetCost(player, cost);
+        jetBean(player, targetLocation, RATE_TELEPORT_TO_PLAYER.getRate());
     }
 }

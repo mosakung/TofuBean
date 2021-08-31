@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 
 import static com.tofu.bean.utils.parser.LocationParser.string2Location;
 
-public class DefaultBeanDeadLocation extends JetBeanUtils  {
+public class DefaultBeanDeadLocationExecutor extends JetBeanUtils  {
 
     private final DeadJetBeanInteractor deadJetBeanInteractor;
 
-    public DefaultBeanDeadLocation(
+    public DefaultBeanDeadLocationExecutor(
             JetBeanAction jetBeanAction,
             PlayerBeansInteractor playerBeansInteractor,
             DeadJetBeanInteractor deadJetBeanInteractor

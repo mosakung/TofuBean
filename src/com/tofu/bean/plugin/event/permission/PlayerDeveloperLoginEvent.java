@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.event.permission;
 
-import com.tofu.bean.data.PermissionBean;
+import com.tofu.bean.data.PermissionMethod;
 import com.tofu.bean.presentation.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class PlayerDeveloperLoginEvent {
 
         if (playerName.equals("BearSouL")) {
             PermissionAttachment targetAttachment = player.addAttachment(Main.getInstance());
-            targetAttachment.setPermission(PermissionBean.DEVELOPER.getPermission(), true);
+            targetAttachment.setPermission(PermissionMethod.DEVELOPER.getPermission(), true);
             player.sendMessage(ChatColor.AQUA + "initialize permission developer to " + player.getName());
         }
     }

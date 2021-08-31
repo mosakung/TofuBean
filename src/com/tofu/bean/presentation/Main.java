@@ -12,6 +12,8 @@ import com.tofu.bean.plugin.event.TaskModuleEvent;
 import com.tofu.bean.plugin.beans.BeansModuleCommand;
 import com.tofu.bean.domain.contract.PlayerBeansInteractor;
 import com.tofu.bean.domain.impl.PlayerBeansInteractorImpl;
+import com.tofu.bean.plugin.evoke.EvokeModuleCommnd;
+import com.tofu.bean.plugin.evoke.EvokeTabCompleter;
 import com.tofu.bean.plugin.jetbean.JetBeanModuleCommand;
 import com.tofu.bean.plugin.jetbean.SpawnJetBeanModuleCommand;
 import com.tofu.bean.plugin.jetbean.suggestion.JetBeanTabCompleter;
@@ -39,6 +41,7 @@ public class Main extends JavaPlugin {
     private final BeansModuleCommand beansModuleCommand = new BeansModuleCommand(playerBeansInteractor);
     private final BeanPermissionModuleCommand beanPermissionModuleCommand = new BeanPermissionModuleCommand();
     private final SpawnJetBeanModuleCommand spawnJetBeanModuleCommand = new SpawnJetBeanModuleCommand(playerBeansInteractor, spawnJetBeanInteractor);
+    private final EvokeModuleCommnd evokeModuleCommnd = new EvokeModuleCommnd(playerBeansInteractor);
 
     @Override
     public void onEnable() {
@@ -56,6 +59,9 @@ public class Main extends JavaPlugin {
         this.getCommand("tofu").setTabCompleter(new BeanPermissionTabCompleter());
 
         this.getCommand("spawn").setExecutor(spawnJetBeanModuleCommand);
+
+        this.getCommand("evoke").setExecutor(evokeModuleCommnd);
+        this.getCommand("evoke").setTabCompleter(new EvokeTabCompleter());
 
         // event //
         Bukkit.getPluginManager().registerEvents(new TaskModuleEvent(playerBeansInteractor, deadJetBeanInteractor), this);

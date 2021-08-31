@@ -59,15 +59,11 @@ public record SpawnJetBeanInteractorImpl(
     @Override
     public Boolean hasSpawnName(String spawnName) {
 
-        System.out.println("hasSpawnName");
-
         String selectSpawnLocation = "SELECT * FROM `spawn` WHERE `spawn_name` = ?";
 
         String[] dataSet = {spawnName};
 
         final ResultSet result = db.fetch(selectSpawnLocation, dataSet);
-
-        System.out.println("hasSpawnName " + result.toString());
 
         try {
             if (result.next()) {

@@ -1,12 +1,12 @@
 package com.tofu.bean.data;
 
-public enum PermissionBean {
+public enum PermissionMethod {
     DEVELOPER("BeanHello.developer", "developer");
 
     private String permission;
     private String value;
 
-    PermissionBean(
+    PermissionMethod(
             String permission,
             String value
     ) {

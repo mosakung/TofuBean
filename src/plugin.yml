@@ -15,3 +15,6 @@ commands:
 
   tofu:
     description: set & de permission
+
+  evoke:
+    description: evoke

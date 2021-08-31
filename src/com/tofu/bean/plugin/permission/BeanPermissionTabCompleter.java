@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.permission;
 
-import com.tofu.bean.data.PermissionBean;
+import com.tofu.bean.data.PermissionMethod;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -36,9 +36,9 @@ public class BeanPermissionTabCompleter implements TabCompleter {
     private List<String> getPermission() {
 
         List<String> permissionName = new ArrayList<>();
-        PermissionBean[] permissionBeans = PermissionBean.class.getEnumConstants();
+        PermissionMethod[] permissionMethods = PermissionMethod.class.getEnumConstants();
 
-        Arrays.stream(permissionBeans).map(PermissionBean::getValue).forEach(permissionName::add);
+        Arrays.stream(permissionMethods).map(PermissionMethod::getValue).forEach(permissionName::add);
 
         return permissionName;
     }

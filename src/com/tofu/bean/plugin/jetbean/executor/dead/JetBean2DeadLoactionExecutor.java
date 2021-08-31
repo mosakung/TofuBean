@@ -6,13 +6,13 @@ import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static com.tofu.bean.data.RateBeanVillage.RATE_TELEPORT_TO_DEAD_LOCATION;
+import static com.tofu.bean.data.CostRateBeansMethod.RATE_TELEPORT_TO_DEAD_LOCATION;
 
-public class JetBean2DeadLoaction extends DefaultBeanDeadLocation  {
+public class JetBean2DeadLoactionExecutor extends DefaultBeanDeadLocationExecutor {
 
     private final DeadJetBeanInteractor deadJetBeanInteractor;
 
-    public JetBean2DeadLoaction(
+    public JetBean2DeadLoactionExecutor(
             JetBeanAction jetBeanAction,
             PlayerBeansInteractor playerBeansInteractor,
             DeadJetBeanInteractor deadJetBeanInteractor

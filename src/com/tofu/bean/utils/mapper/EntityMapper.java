@@ -21,8 +21,7 @@ public class EntityMapper {
             case ZOMBIE_VILLAGER, PHANTOM, GHAST, VEX -> 25.0;
             case WITCH, RAVAGER -> 45.0;
             case SHULKER -> 50.0;
-            case ELDER_GUARDIAN -> 5000.0;
-            case ENDER_DRAGON, WITHER -> 1500.0;
+            case ELDER_GUARDIAN, ENDER_DRAGON, WITHER -> 1500.0;
             default -> 0.0;
         };
     }

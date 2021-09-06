@@ -25,4 +25,12 @@ public class LocationParser {
         return rawLocation;
     }
 
+    public static Double string2Double(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException exec) {
+            return null;
+        }
+    }
+
 }

@@ -29,6 +29,11 @@ public class JavaMySqlImpl implements JavaMySql {
     }
 
     @Override
+    public Connection provideConnection() {
+        return this.connection;
+    }
+
+    @Override
     public ResultSet fetch(String sql, String[] args) {
 
         if (connection == null) {
@@ -56,7 +61,7 @@ public class JavaMySqlImpl implements JavaMySql {
         }
 
         try {
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             for (int index = 1; index <= args.length; index++) {
                 statement.setString(index, args[index - 1]);
@@ -72,6 +77,9 @@ public class JavaMySqlImpl implements JavaMySql {
                 if (rs.next()) {
                     return rs.getInt(1);
                 }
+            } catch (SQLException exec) {
+                System.out.println("Error get ID after INSERT");
+                exec.printStackTrace();
             }
         } catch (SQLException exec) {
             System.out.println("Can't inject SQL to database " + sql);
@@ -101,4 +109,6 @@ public class JavaMySqlImpl implements JavaMySql {
             exec.printStackTrace();
         }
     }
+
+
 }

@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.beans.command;
 
-import com.tofu.bean.data.methods.PermissionMethod;
+import com.tofu.bean.data.enums.PermissionMethod;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
 import com.tofu.bean.plugin.beans.command.executor.DecreasedBeansValueExecutor;
 import com.tofu.bean.plugin.beans.command.executor.GiveBean2FriendExecutor;

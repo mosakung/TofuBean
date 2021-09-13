@@ -1,12 +1,15 @@
 package com.tofu.bean.plugin.sign.event.listener;
 
-import com.tofu.bean.data.methods.sign.branch.BuySignBranch;
-import com.tofu.bean.data.methods.sign.branch.CasinoSignBranch;
-import com.tofu.bean.data.methods.sign.branch.CookSignBranch;
+import com.tofu.bean.data.enums.sign.branch.BuySignBranch;
+import com.tofu.bean.data.enums.sign.branch.CasinoSignBranch;
+import com.tofu.bean.data.enums.sign.branch.CookSignBranch;
+import com.tofu.bean.data.enums.sign.branch.ExchangeSignBranch;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
-import com.tofu.bean.plugin.casino.PlayerUseBlackJackSign;
-import com.tofu.bean.plugin.sign.event.impl.SignActionCookImpl;
+import com.tofu.bean.plugin.sign.event.contract.SignActionCasino;
 import com.tofu.bean.plugin.sign.event.impl.SignActionBuyImpl;
+import com.tofu.bean.plugin.sign.event.impl.SignActionCasinoImpl;
+import com.tofu.bean.plugin.sign.event.impl.SignActionCookImpl;
+import com.tofu.bean.plugin.sign.event.impl.SignActionExchangeImpl;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -16,24 +19,27 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.tofu.bean.data.methods.sign.ActionSign.*;
-import static com.tofu.bean.utils.SignMessageUtils.revertSignMessageActionFormat;
-import static com.tofu.bean.utils.SignMessageUtils.revertSignMessageBeansFormat;
+import static com.tofu.bean.data.enums.sign.ActionSign.*;
+import static com.tofu.bean.data.enums.sign.branch.CasinoSignBranch.getCasinoSignBranch;
+import static com.tofu.bean.data.enums.sign.branch.ExchangeSignBranch.getExchangeSignBranch;
 import static com.tofu.bean.utils.mapper.SignMapper.isSignMaterial;
-import static com.tofu.bean.utils.parser.LocationParser.string2Double;
+import static com.tofu.bean.utils.sign.BuySignMessageUtils.revertBuySignMessageActionFormat;
 
 public class PlayerUseActionSignListener {
 
     private final SignActionBuyImpl signActionBuyImpl;
-    private final PlayerUseBlackJackSign playerUseBlackJackSign;
     private final SignActionCookImpl signActionCookImpl;
+    private final SignActionExchangeImpl signActionExchange;
+    private final SignActionCasino signActionCasino;
+
 
     public PlayerUseActionSignListener(
             PlayerBeansInteractor playerBeansInteractor
     ) {
         this.signActionBuyImpl = new SignActionBuyImpl(playerBeansInteractor);
-        this.playerUseBlackJackSign = new PlayerUseBlackJackSign();
         this.signActionCookImpl = new SignActionCookImpl(playerBeansInteractor);
+        this.signActionExchange = new SignActionExchangeImpl(playerBeansInteractor);
+        this.signActionCasino = new SignActionCasinoImpl();
     }
 
     public void call(PlayerInteractEvent event) {
@@ -48,7 +54,7 @@ public class PlayerUseActionSignListener {
 
                 if (signLine1.contains("§")) {
 
-                    String actionFormat = revertSignMessageActionFormat(signLine1);
+                    String actionFormat = revertBuySignMessageActionFormat(signLine1);
 
                     if (actionFormat == null) {
                         return;
@@ -72,21 +78,24 @@ public class PlayerUseActionSignListener {
                         });
                     }
 
+                    if (EXCHANGE.equal(actionFormat)) {
+                        ExchangeSignBranch exchangeSignBranch = getExchangeSignBranch(sign.getLine(1), sign.getLine(2), sign.getLine(3));
+
+                        if(exchangeSignBranch == null) {
+                            return;
+                        }
+
+                        signActionExchange.action(player, exchangeSignBranch);
+                    }
+
                     if (CASINO.equal(actionFormat)) {
-                        Arrays.stream(CasinoSignBranch.values()).forEach(signCasinoTableMethod -> {
+                        CasinoSignBranch casinoSignBranch = getCasinoSignBranch(sign.getLine(1), sign.getLine(2), sign.getLine(3));
 
-                            if (signCasinoTableMethod.equalTableNameMessage(sign.getLine(1))) {
-                                String rawBet = revertSignMessageBeansFormat(sign.getLine(2));
+                        if(casinoSignBranch == null) {
+                            return;
+                        }
 
-                                Double bet = string2Double(rawBet);
-
-                                if(bet == null) {
-                                    return;
-                                }
-
-                                playerUseBlackJackSign.actionSit(player, signCasinoTableMethod, bet);
-                            }
-                        });
+                        signActionCasino.action(player, casinoSignBranch);
                     }
                 }
             }

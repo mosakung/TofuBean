@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.permission.command;
 
-import com.tofu.bean.data.methods.PermissionMethod;
+import com.tofu.bean.data.enums.PermissionMethod;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

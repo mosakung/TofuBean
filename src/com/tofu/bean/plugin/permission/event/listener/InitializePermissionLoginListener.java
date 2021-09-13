@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.permission.event.listener;
 
-import com.tofu.bean.data.methods.PermissionMethod;
+import com.tofu.bean.data.enums.PermissionMethod;
 import com.tofu.bean.presentation.PresentationPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

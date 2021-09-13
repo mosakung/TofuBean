@@ -1,17 +1,14 @@
 package com.tofu.bean.plugin.sign.event.impl;
 
-import com.tofu.bean.data.methods.sign.branch.CookSignBranch;
-import com.tofu.bean.data.methods.item.CustomMaterialItem;
+import com.tofu.bean.data.enums.sign.branch.CookSignBranch;
+import com.tofu.bean.data.enums.item.CustomMaterialItem;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
 import com.tofu.bean.plugin.sign.event.contract.SignActionCook;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 
-public class SignActionCookImpl implements SignActionCook {
+public class SignActionCookImpl extends SignActionDefault implements SignActionCook {
 
     private final PlayerBeansInteractor playerBeansInteractor;
 
@@ -44,86 +41,36 @@ public class SignActionCookImpl implements SignActionCook {
             int amountExchange = cookItemMethod.getAmountExchange();
 
             if(hasItem2Exchange(player, exchangeItem, amountExchange)) {
-                playerBeansInteractor.decreasedValue(playerName, cost);
-
-                String itemName = cookItemMethod.getItemName();
-                CustomMaterialItem materialType = cookItemMethod.getMaterialType();
-
                 if(pullItemPlayer(player, exchangeItem, amount)) {
+                    String itemName = cookItemMethod.getItemName();
+                    CustomMaterialItem materialType = cookItemMethod.getMaterialType();
+
+                    playerBeansInteractor.decreasedValue(playerName, cost);
+
                     sendItem2Player(player, materialType, amount);
-                    messageOnPlayerExchangeSuccess(player, itemName, amount);
+                    player.sendMessage(messageOnPlayerExchangeSuccess(itemName, amount));
                 } else {
-                    messagePlayerShouldMerge(player, exchangeItem.name(), amountExchange);
+                    player.sendMessage(messagePlayerShouldMerge(exchangeItem.name(), amountExchange));
                 }
             } else {
-                messageOnPlayerExchangeNoItem(player, exchangeItem.name(), amountExchange);
+                player.sendMessage(messageOnPlayerExchangeNoItem(exchangeItem.name(), amountExchange));
             }
         } else {
-            messageOnPlayerExchangeNoCost(player);
+            player.sendMessage(messageOnPlayerExchangeNoCost);
         }
     }
 
-    private Boolean pullItemPlayer(Player player, Material material, int amount) {
-        int exchangeItemIndexLocation = -1;
-        ItemStack currentItems;
-        PlayerInventory inventory = player.getInventory();
-
-        for (int index = 0; index < inventory.getSize(); index++) {
-            currentItems = inventory.getItem(index);
-
-            if (currentItems != null && currentItems.getType() == material && currentItems.getAmount() >= amount) {
-
-                ItemMeta itemMeta = currentItems.getItemMeta();
-
-                if(itemMeta != null) {
-                    String displayName = itemMeta.getDisplayName();
-
-                    if (displayName.equals("")) {
-                        exchangeItemIndexLocation = index;
-                        index = inventory.getSize();
-                    }
-                }
-            }
-        }
-
-        if (exchangeItemIndexLocation != -1) {
-            ItemStack exchangeItemStack = inventory.getItem(exchangeItemIndexLocation);
-            if (exchangeItemStack != null) {
-                int seedAmount = exchangeItemStack.getAmount();
-                exchangeItemStack.setAmount(seedAmount - amount);
-                return true;
-            }
-        }
-
-        return false;
+    private String messageOnPlayerExchangeSuccess(String itemName, int amount) {
+        return ChatColor.AQUA + "exchange " + ChatColor.WHITE + amount + ChatColor.AQUA + " " + itemName;
     }
 
-    private void sendItem2Player(Player player, CustomMaterialItem materialType, int amount) {
+    private String messageOnPlayerExchangeNoCost = ChatColor.YELLOW + "can't cook this, check you beans!!";
 
-        ItemStack itemStack = materialType.generateItemStack(amount);
-        player.getInventory().addItem(itemStack);
+    private String messagePlayerShouldMerge(String itemName, int amount) {
+        return ChatColor.YELLOW + "can't cook this, merge you item to " + ChatColor.WHITE + amount + " " + itemName;
     }
 
-    private void messageOnPlayerExchangeSuccess(Player player, String itemName, int amount) {
-        player.sendMessage(ChatColor.AQUA + "exchange " + ChatColor.WHITE + amount + ChatColor.AQUA + " " + itemName);
-    }
-
-    private void messageOnPlayerExchangeNoCost(Player player) {
-        player.sendMessage(ChatColor.YELLOW + "can't cook this, check you beans!!");
-    }
-
-    private void messagePlayerShouldMerge(Player player, String itemName, int amount) {
-        player.sendMessage(ChatColor.YELLOW + "can't cook this, merge you item to " + ChatColor.WHITE + amount + " " + itemName);
-    }
-
-    private void messageOnPlayerExchangeNoItem(Player player, String itemExchangeName, int amount) {
-        player.sendMessage(ChatColor.YELLOW + "can't cook this, it require " + ChatColor.WHITE + amount + " " + itemExchangeName);
-    }
-
-    private Boolean hasItem2Exchange(Player player, Material exchangeItem, int amount) {
-        PlayerInventory inventory = player.getInventory();
-        ItemStack requireItem = new ItemStack(exchangeItem);
-
-        return inventory.containsAtLeast(requireItem, amount);
+    private String messageOnPlayerExchangeNoItem(String itemExchangeName, int amount) {
+        return ChatColor.YELLOW + "can't cook this, it require " + ChatColor.WHITE + amount + " " + itemExchangeName;
     }
 }

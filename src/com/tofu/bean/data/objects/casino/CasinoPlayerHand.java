@@ -1,5 +1,7 @@
 package com.tofu.bean.data.objects.casino;
 
+import com.tofu.bean.plugin.casino.enums.CasinoCard;
+
 public class CasinoPlayerHand {
 
     private CasinoCard[] hand;

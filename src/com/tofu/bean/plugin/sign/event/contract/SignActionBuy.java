@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.sign.event.contract;
 
-import com.tofu.bean.data.methods.sign.branch.BuySignBranch;
+import com.tofu.bean.data.enums.sign.branch.BuySignBranch;
 import org.bukkit.entity.Player;
 
 public interface SignActionBuy {

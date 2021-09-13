@@ -1,6 +1,6 @@
 package com.tofu.bean.utils;
 
-import com.tofu.bean.data.objects.casino.CasinoCard;
+import com.tofu.bean.plugin.casino.enums.CasinoCard;
 import com.tofu.bean.data.objects.casino.CasinoPlayerHand;
 import oshi.util.tuples.Pair;
 

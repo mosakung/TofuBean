@@ -1,6 +1,6 @@
 package com.tofu.bean.data.generate.buy.impl.tipped;
 
-import com.tofu.bean.data.generate.buy.contract.GenerateItemStackFunc;
+import com.tofu.bean.data.generate.buy.GenerateItemStackFunc;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionData;
 

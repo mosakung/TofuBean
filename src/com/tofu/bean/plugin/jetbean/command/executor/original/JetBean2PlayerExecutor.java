@@ -1,12 +1,12 @@
 package com.tofu.bean.plugin.jetbean.command.executor.original;
 
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
-import com.tofu.bean.plugin.jetbean.command.action.contract.JetBeanAction;
+import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import com.tofu.bean.plugin.jetbean.command.executor.JetBeanDefault;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import static com.tofu.bean.data.methods.CostRateBeansMethod.RATE_TELEPORT_TO_PLAYER;
+import static com.tofu.bean.data.enums.CostRateBeansMethod.RATE_TELEPORT_TO_PLAYER;
 
 public class JetBean2PlayerExecutor extends JetBeanDefault {
 

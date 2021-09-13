@@ -2,8 +2,8 @@ package com.tofu.bean.plugin.jetbean.command;
 
 import com.tofu.bean.domain.contract.jetbean.DeadJetBeanInteractor;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
-import com.tofu.bean.plugin.jetbean.command.action.contract.JetBeanAction;
-import com.tofu.bean.plugin.jetbean.command.action.impl.JetBeanActionImpl;
+import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
+import com.tofu.bean.plugin.jetbean.action.impl.JetBeanActionImpl;
 import com.tofu.bean.plugin.jetbean.command.executor.dead.CostJetBeanDeadLocationExecutorExecutor;
 import com.tofu.bean.plugin.jetbean.command.executor.dead.JetBean2DeadLoactionExecutor;
 import com.tofu.bean.plugin.jetbean.command.executor.original.CostJetBeanPlayerExecutor;

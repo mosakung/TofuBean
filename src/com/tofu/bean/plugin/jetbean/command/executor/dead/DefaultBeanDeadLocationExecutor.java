@@ -2,7 +2,7 @@ package com.tofu.bean.plugin.jetbean.command.executor.dead;
 
 import com.tofu.bean.domain.contract.jetbean.DeadJetBeanInteractor;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
-import com.tofu.bean.plugin.jetbean.command.action.contract.JetBeanAction;
+import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import com.tofu.bean.plugin.jetbean.command.executor.JetBeanDefault;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

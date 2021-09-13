@@ -1,6 +1,6 @@
 package com.tofu.bean.plugin.food.event.listener;
 
-import com.tofu.bean.data.methods.item.CustomFoodItem;
+import com.tofu.bean.data.enums.item.CustomFoodItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemConsumeEvent;

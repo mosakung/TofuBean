@@ -1,17 +1,20 @@
 package com.tofu.bean.plugin.sign.event.listener;
 
-import com.tofu.bean.data.methods.PermissionMethod;
-import com.tofu.bean.data.methods.sign.branch.BuySignBranch;
-import com.tofu.bean.data.methods.sign.branch.CasinoSignBranch;
-import com.tofu.bean.data.methods.sign.branch.CookSignBranch;
+import com.tofu.bean.data.enums.PermissionMethod;
+import com.tofu.bean.data.enums.sign.branch.BuySignBranch;
+import com.tofu.bean.data.enums.sign.branch.CasinoSignBranch;
+import com.tofu.bean.data.enums.sign.branch.CookSignBranch;
+import com.tofu.bean.data.enums.sign.branch.ExchangeSignBranch;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.tofu.bean.data.methods.sign.ActionSign.CASINO;
-import static com.tofu.bean.utils.SignMessageUtils.signMessageBeansFormat;
+import static com.tofu.bean.data.enums.sign.ActionSign.CASINO;
+import static com.tofu.bean.data.enums.sign.branch.CasinoSignBranch.getCasinoSignBranch;
+import static com.tofu.bean.data.enums.sign.branch.ExchangeSignBranch.getExchangeSignBranch;
+import static com.tofu.bean.utils.sign.BuySignMessageUtils.buySignMessageBeansFormat;
 import static com.tofu.bean.utils.parser.LocationParser.string2Double;
 
 public class CreateActionSignListener {
@@ -35,6 +38,7 @@ public class CreateActionSignListener {
                         event.setLine(3, buySignBranch.getBeansMessage());
                     }
                 });
+                return;
             }
 
             if (Objects.requireNonNull(command).equals("/dev cook")) {
@@ -46,24 +50,34 @@ public class CreateActionSignListener {
                         event.setLine(3, cookSignBranch.getBeansMessage());
                     }
                 });
+                return;
             }
 
-            if (Objects.requireNonNull(command).equals("/dev casino")) {
-                String betString = event.getLine(2);
+            if (Objects.requireNonNull(command).equals("/dev exchange")) {
+                ExchangeSignBranch exchangeSignBranch = getExchangeSignBranch(tracking);
 
-                Double bet = string2Double(Objects.requireNonNull(betString));
-
-                if (bet == null) {
+                if(exchangeSignBranch == null) {
                     return;
                 }
 
-                Arrays.stream(CasinoSignBranch.values()).forEach(signCasinoTableMethod -> {
-                    if (Objects.requireNonNull(tracking).equals(signCasinoTableMethod.getTracking())) {
-                        event.setLine(0, CASINO.getActionMessage());
-                        event.setLine(1, signCasinoTableMethod.getTableNameMessage());
-                        event.setLine(2, signMessageBeansFormat(betString));
-                    }
-                });
+                event.setLine(0, exchangeSignBranch.getMessageTopic());
+                event.setLine(1, exchangeSignBranch.getMessageRequire());
+                event.setLine(2, exchangeSignBranch.getMessageReward());
+                event.setLine(3, exchangeSignBranch.getMessageBeans());
+                return;
+            }
+
+            if (Objects.requireNonNull(command).equals("/dev casino")) {
+                CasinoSignBranch casinoSignBranch = getCasinoSignBranch(tracking);
+
+                if(casinoSignBranch == null) {
+                    return;
+                }
+
+                event.setLine(0, casinoSignBranch.getMessageTopic());
+                event.setLine(1, casinoSignBranch.getMessageTableNameLabel());
+                event.setLine(2, casinoSignBranch.getMessageRule());
+                event.setLine(3, casinoSignBranch.getMessageBet());
             }
         }
     }

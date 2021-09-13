@@ -1,7 +1,7 @@
 package com.tofu.bean.plugin.jetbean.command.executor;
 
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
-import com.tofu.bean.plugin.jetbean.command.action.contract.JetBeanAction;
+import com.tofu.bean.plugin.jetbean.action.contract.JetBeanAction;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public class JetBeanDefault {
         return cost;
     }
 
-    public void jetBean(Player player, Location location, Double rate) {
+    public Boolean jetBean(Player player, Location location, Double rate) {
         String playerName = player.getName();
 
         Location playerLocation = player.getLocation();
@@ -52,7 +52,7 @@ public class JetBeanDefault {
 
         if (pocketValue == null) {
             player.sendMessage(ChatColor.DARK_RED + "Something Error (JetBeanUtils (jetBean)) tell BearSouL : pocketValue == null");
-            return;
+            return false;
         }
 
         if (pocketValue >= cost) {
@@ -61,8 +61,10 @@ public class JetBeanDefault {
             messageOnJetDone(player);
 
             jetBeanAction.forceJetBeanLocation(player, location);
+            return true;
         } else {
             messageOnJetFail(player);
+            return false;
         }
     }
 

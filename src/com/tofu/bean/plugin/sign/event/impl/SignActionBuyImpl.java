@@ -1,7 +1,7 @@
 package com.tofu.bean.plugin.sign.event.impl;
 
-import com.tofu.bean.data.methods.sign.branch.BuySignBranch;
-import com.tofu.bean.data.methods.item.CustomMaterialItem;
+import com.tofu.bean.data.enums.sign.branch.BuySignBranch;
+import com.tofu.bean.data.enums.item.CustomMaterialItem;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
 import com.tofu.bean.plugin.sign.event.contract.SignActionBuy;
 import org.bukkit.ChatColor;

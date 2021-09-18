@@ -59,5 +59,4 @@ public class ExchangeSignMessageUtils {
 
         return null;
     }
-
 }

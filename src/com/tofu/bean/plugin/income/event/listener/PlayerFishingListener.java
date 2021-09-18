@@ -22,14 +22,12 @@ public class PlayerFishingListener {
     public void call(PlayerFishEvent event) {
         Player player = event.getPlayer();
 
-        Item caught = (Item) event.getCaught();
-
-        if (caught != null) {
+        if (event.getCaught() instanceof Item caught) {
             Material item = caught.getItemStack().getType();
 
             Double beanReward = mapCaughtFishing2Value(item);
 
-            playerBeansInteractor.increasedValue(player.getName() ,beanReward);
+            playerBeansInteractor.increasedValue(player.getName(), beanReward);
             messageOnPlayerCaughtItem(player, beanReward);
         }
     }

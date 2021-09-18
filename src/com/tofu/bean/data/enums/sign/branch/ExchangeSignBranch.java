@@ -7,12 +7,11 @@ import org.bukkit.Material;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.tofu.bean.data.enums.item.CustomMaterialItem.BUCKET_OF_TROPICAL_FISH;
-import static com.tofu.bean.data.enums.item.CustomMaterialItem.STRING;
+import static com.tofu.bean.data.enums.item.CustomMaterialItem.*;
 import static com.tofu.bean.data.enums.sign.ActionSign.EXCHANGE;
 import static com.tofu.bean.utils.sign.ExchangeSignMessageUtils.buildExchangeMessageRequire;
 import static com.tofu.bean.utils.sign.ExchangeSignMessageUtils.buildExchangeMessageReward;
-import static com.tofu.bean.utils.sign.SignMessageUtils.buildExchangeMessageBeans;
+import static com.tofu.bean.utils.sign.SignMessageUtils.buildSignMessageRequireBeans;
 import static org.bukkit.Material.*;
 
 public enum ExchangeSignBranch {
@@ -21,7 +20,7 @@ public enum ExchangeSignBranch {
             "Cod Fish",
             COD,
             16,
-            STRING,
+            CustomMaterialItem.STRING,
             20,
             0.0,
             "#1"
@@ -31,7 +30,7 @@ public enum ExchangeSignBranch {
             "Salmon Fish",
             SALMON,
             16,
-            STRING,
+            CustomMaterialItem.STRING,
             20,
             0.0,
             "#2"
@@ -56,7 +55,7 @@ public enum ExchangeSignBranch {
             1000.0,
             "#4"
     ),
-    EXCHANGE_PUFFER_FISH_16_TO_16_12500(
+    EXCHANGE_PUFFER_FISH_16_TO_SPONGE_16_12500(
             EXCHANGE,
             "Puffer Fish",
             PUFFERFISH,
@@ -65,6 +64,46 @@ public enum ExchangeSignBranch {
             16,
             12500.0,
             "#5"
+    ),
+    EXCHANGE_DRAGON_BREATH_1_TO_ARROW_HEALING_32_5000(
+            EXCHANGE,
+            "D Breath",
+            Material.DRAGON_BREATH,
+            1,
+            ARROW_HEALING,
+            32,
+            5000.0,
+            "#6"
+    ),
+    EXCHANGE_DRAGON_BREATH_1_TO_ARROW_HARMING_32_5000(
+            EXCHANGE,
+            "D Breath",
+            Material.DRAGON_BREATH,
+            1,
+            ARROW_HARMING,
+            32,
+            5000.0,
+            "#7"
+    ),
+    EXCHANGE_DRAGON_BREATH_1_TO_ARROW_WEAKNESS_32_4000(
+            EXCHANGE,
+            "D Breath",
+            Material.DRAGON_BREATH,
+            1,
+            ARROW_WEAKNESS,
+            32,
+            4000.0,
+            "#8"
+    ),
+    EXCHANGE_DRAGON_BREATH_1_TO_ARROW_SLOWNESS_32_3000(
+            EXCHANGE,
+            "D Breath",
+            Material.DRAGON_BREATH,
+            1,
+            ARROW_SLOWNESS,
+            32,
+            3000.0,
+            "#9"
     );
 
     private final ActionSign actionSign;
@@ -103,7 +142,7 @@ public enum ExchangeSignBranch {
         this.messageTopic = actionSign.getActionMessage();
         this.messageRequire = buildExchangeMessageRequire(this.requireLabel, this.amountRequire);
         this.messageReward = buildExchangeMessageReward(this.reward, this.amountReward);
-        this.messageBeans = buildExchangeMessageBeans(this.beans);
+        this.messageBeans = buildSignMessageRequireBeans(this.beans);
     }
 
     public ActionSign getActionSign() {

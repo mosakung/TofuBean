@@ -14,9 +14,9 @@ import java.util.Objects;
 
 import static com.tofu.bean.plugin.casino.enums.blackjack.BlackJackActionType.*;
 
-public class BlackJackGUI implements BoardGUI {
+public class BlackJackGUICasino implements CasinoBoardGUI {
 
-    public BlackJackGUI() {
+    public BlackJackGUICasino() {
     }
 
     @Override

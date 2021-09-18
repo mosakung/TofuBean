@@ -2,6 +2,7 @@ package com.tofu.bean.inject.dependency;
 
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
 import com.tofu.bean.plugin.casino.blackjack.event.CasinoModuleEvent;
+import com.tofu.bean.plugin.casino.coupon.CouponManagement;
 import com.tofu.bean.presentation.PresentationPlugin;
 import org.bukkit.Bukkit;
 

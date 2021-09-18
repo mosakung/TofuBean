@@ -13,6 +13,7 @@ public class SignModuleEvent implements Listener {
     private final CreateActionSignListener createActionSignListener;
     private final PlayerUseActionSignListener playerUseActionSignListener;
 
+
     public SignModuleEvent(
             PlayerBeansInteractor playerBeansInteractor
     ) {

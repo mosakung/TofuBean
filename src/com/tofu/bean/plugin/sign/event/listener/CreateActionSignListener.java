@@ -5,17 +5,15 @@ import com.tofu.bean.data.enums.sign.branch.BuySignBranch;
 import com.tofu.bean.data.enums.sign.branch.CasinoSignBranch;
 import com.tofu.bean.data.enums.sign.branch.CookSignBranch;
 import com.tofu.bean.data.enums.sign.branch.ExchangeSignBranch;
+import com.tofu.bean.plugin.casino.gacha.GachaSlotBranch;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.tofu.bean.data.enums.sign.ActionSign.CASINO;
 import static com.tofu.bean.data.enums.sign.branch.CasinoSignBranch.getCasinoSignBranch;
 import static com.tofu.bean.data.enums.sign.branch.ExchangeSignBranch.getExchangeSignBranch;
-import static com.tofu.bean.utils.sign.BuySignMessageUtils.buySignMessageBeansFormat;
-import static com.tofu.bean.utils.parser.LocationParser.string2Double;
 
 public class CreateActionSignListener {
 
@@ -78,6 +76,19 @@ public class CreateActionSignListener {
                 event.setLine(1, casinoSignBranch.getMessageTableNameLabel());
                 event.setLine(2, casinoSignBranch.getMessageRule());
                 event.setLine(3, casinoSignBranch.getMessageBet());
+            }
+
+            if (Objects.requireNonNull(command).equals("/dev gacha")) {
+                GachaSlotBranch gachaSlotBranch = GachaSlotBranch.findByTracking(tracking);
+
+                if(gachaSlotBranch == null) {
+                    return;
+                }
+
+                event.setLine(0, gachaSlotBranch.getActionSign().getActionMessage());
+                event.setLine(1, gachaSlotBranch.getMessageName());
+                event.setLine(2, gachaSlotBranch.getMessageRequireCoupon());
+                event.setLine(3, gachaSlotBranch.getMessageCoupon());
             }
         }
     }

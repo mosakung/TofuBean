@@ -4,9 +4,12 @@ import com.tofu.bean.data.enums.casino.table.CasinoGameType;
 import com.tofu.bean.data.enums.sign.branch.CasinoSignBranch;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
 import com.tofu.bean.plugin.casino.blackjack.action.BlackJackActionGame;
+import com.tofu.bean.plugin.casino.coupon.CouponManagement;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -108,6 +111,7 @@ public class PlayerPlayBoardGameListener {
                             }
                             player.closeInventory();
                             player.sendMessage(withLabelCasino(ChatColor.DARK_RED + "!! LOSE !!"));
+                            giveCoupon(player, casinoSignBranch);
                         } else if (itemStack.getType() == Material.SPORE_BLOSSOM) {
                             if(blackJackActionGame.hasInsuranceFlag(inventory)) {
                                 playerBeansInteractor.increasedValue(playerName ,insuranceReward);
@@ -117,6 +121,7 @@ public class PlayerPlayBoardGameListener {
                             player.closeInventory();
                             playerBeansInteractor.increasedValue(playerName, reward);
                             player.sendMessage(withLabelCasino(ChatColor.GREEN + "!! WINNER !!" + ChatColor.WHITE + " + " + reward));
+                            giveRandomCoupon(player, casinoSignBranch);
                         } else if (itemStack.getType() == Material.AXOLOTL_BUCKET) {
                             if(blackJackActionGame.hasInsuranceFlag(inventory)) {
                                 playerBeansInteractor.increasedValue(playerName ,insuranceReward);
@@ -125,6 +130,7 @@ public class PlayerPlayBoardGameListener {
                             player.closeInventory();
                             playerBeansInteractor.increasedValue(playerName, bet);
                             player.sendMessage(withLabelCasino(ChatColor.WHITE + "!! DRAW !!" + ChatColor.WHITE + " + " + bet));
+                            giveRandomCoupon(player, casinoSignBranch);
                         } else if (itemStack.getType() == Material.BELL) {
                             if(blackJackActionGame.hasInsuranceFlag(inventory)) {
                                 playerBeansInteractor.increasedValue(playerName ,insuranceReward);
@@ -134,6 +140,7 @@ public class PlayerPlayBoardGameListener {
                             player.closeInventory();
                             playerBeansInteractor.increasedValue(playerName, reward);
                             player.sendMessage(withLabelCasino(ChatColor.GREEN + "!! WINNER !!" + ChatColor.WHITE + " + " + reward));
+                            giveRandomCoupon(player, casinoSignBranch);
                         } else if (itemStack.getType() == Material.WHITE_BANNER) {
                             if(blackJackActionGame.hasInsuranceFlag(inventory)) {
                                 playerBeansInteractor.increasedValue(playerName ,insuranceReward);
@@ -143,6 +150,7 @@ public class PlayerPlayBoardGameListener {
                             player.closeInventory();
                             playerBeansInteractor.increasedValue(playerName, halfBet);
                             player.sendMessage(withLabelCasino(ChatColor.DARK_RED + "!! SURRENDER !!" + ChatColor.WHITE + " + " + halfBet));
+                            giveRandomCoupon(player, casinoSignBranch);
                         } else if (itemStack.getType() == Material.LANTERN) {
                             if(blackJackActionGame.hasInsuranceFlag(inventory)) {
                                 playerBeansInteractor.increasedValue(playerName ,insuranceReward);
@@ -152,6 +160,7 @@ public class PlayerPlayBoardGameListener {
                             player.closeInventory();
                             playerBeansInteractor.increasedValue(playerName, doubleDownDraw);
                             player.sendMessage(withLabelCasino(ChatColor.WHITE + "!! DRAW !!" + ChatColor.WHITE + " + " + doubleDownDraw));
+                            giveRandomCoupon(player, casinoSignBranch);
                         } else if(itemStack.getType() == Material.WITHER_ROSE) {
                             if(blackJackActionGame.hasInsuranceFlag(inventory)) {
                                 playerBeansInteractor.increasedValue(playerName ,insuranceReward);
@@ -161,6 +170,7 @@ public class PlayerPlayBoardGameListener {
                             player.closeInventory();
                             playerBeansInteractor.increasedValue(playerName, blackjackReward);
                             player.sendMessage(withLabelCasino(ChatColor.GREEN + "!! BLACK JACK !!" + ChatColor.WHITE + " + " + blackjackReward));
+                            giveRandomCoupon(player, casinoSignBranch);
                         }
                     }
                 } else {
@@ -184,5 +194,25 @@ public class PlayerPlayBoardGameListener {
 
     private String withLabelCasino(String message) {
         return ChatColor.WHITE + "[" + ChatColor.GOLD + "CASINO" + ChatColor.WHITE + "] " + ChatColor.RESET + message;
+    }
+
+    private void giveRandomCoupon(HumanEntity player, CasinoSignBranch casinoSignBranch) {
+        if(randomGetCoupon()) {
+            giveCoupon(player, casinoSignBranch);
+        }
+    }
+
+    private void giveCoupon(HumanEntity player, CasinoSignBranch casinoSignBranch) {
+        Player _player = Bukkit.getPlayer(player.getName());
+        if(casinoSignBranch.getBet() >= 10000.0) {
+            if (_player != null) {
+                CouponManagement.giveCoupon(_player, 1);
+                player.sendMessage(withLabelCasino(ChatColor.WHITE + "Casino Coupon " + ChatColor.GREEN + "+1"));
+            }
+        }
+    }
+
+    private Boolean randomGetCoupon() {
+        return Math.random() > 0.8;
     }
 }

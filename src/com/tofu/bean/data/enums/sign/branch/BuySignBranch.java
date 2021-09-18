@@ -36,28 +36,28 @@ public enum BuySignBranch {
             ARROW_HEALING,
             "16",
             "2500",
-            "#4"
+            "#4@"
     ),
     BUY_ARROW_HARMING_16_2500(
             BUY,
             ARROW_HARMING,
             "16",
             "2500",
-            "#5"
+            "#5@"
     ),
     BUY_ARROW_WEAKNESS_16_2500(
             BUY,
             ARROW_WEAKNESS,
             "16",
             "2500",
-            "#6"
+            "#6@"
     ),
     BUY_ARROW_SLOWNESS_16_2500(
             BUY,
             ARROW_SLOWNESS,
             "16",
             "2500",
-            "#7"
+            "#7@"
     ),
     BUY_FIREWORK_ROCKET_64_1000(
             BUY,
@@ -73,13 +73,21 @@ public enum BuySignBranch {
             "480",
             "#9"
     ),
+    DRAGON_BREATH_1_500(
+            BUY,
+            DRAGON_BREATH,
+            "1",
+            "250",
+            "#10"
+    ),
     DEBUG(
             BUY,
             CASINO_COUPON,
-            "1",
+            "10",
             "0",
             "debug"
     );
+
 
     private final ActionSign actionType;
     private final CustomMaterialItem materialType;

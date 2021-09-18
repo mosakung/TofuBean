@@ -5,11 +5,10 @@ import com.tofu.bean.data.enums.sign.branch.CasinoSignBranch;
 import com.tofu.bean.data.enums.sign.branch.CookSignBranch;
 import com.tofu.bean.data.enums.sign.branch.ExchangeSignBranch;
 import com.tofu.bean.domain.contract.beans.PlayerBeansInteractor;
+import com.tofu.bean.plugin.casino.gacha.GachaSlotBranch;
 import com.tofu.bean.plugin.sign.event.contract.SignActionCasino;
-import com.tofu.bean.plugin.sign.event.impl.SignActionBuyImpl;
-import com.tofu.bean.plugin.sign.event.impl.SignActionCasinoImpl;
-import com.tofu.bean.plugin.sign.event.impl.SignActionCookImpl;
-import com.tofu.bean.plugin.sign.event.impl.SignActionExchangeImpl;
+import com.tofu.bean.plugin.sign.event.contract.SignActionGachapon;
+import com.tofu.bean.plugin.sign.event.impl.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -31,6 +30,7 @@ public class PlayerUseActionSignListener {
     private final SignActionCookImpl signActionCookImpl;
     private final SignActionExchangeImpl signActionExchange;
     private final SignActionCasino signActionCasino;
+    private final SignActionGachapon signActionGachapon;
 
 
     public PlayerUseActionSignListener(
@@ -40,6 +40,7 @@ public class PlayerUseActionSignListener {
         this.signActionCookImpl = new SignActionCookImpl(playerBeansInteractor);
         this.signActionExchange = new SignActionExchangeImpl(playerBeansInteractor);
         this.signActionCasino = new SignActionCasinoImpl();
+        this.signActionGachapon = new SignActionGachaponImpl();
     }
 
     public void call(PlayerInteractEvent event) {
@@ -96,6 +97,16 @@ public class PlayerUseActionSignListener {
                         }
 
                         signActionCasino.action(player, casinoSignBranch);
+                    }
+
+                    if (GACHAPON.equal(actionFormat)) {
+                        GachaSlotBranch gachaSlotBranch = GachaSlotBranch.find(sign.getLine(1), sign.getLine(2));
+
+                        if (gachaSlotBranch == null) {
+                            return;
+                        }
+
+                        signActionGachapon.action(player, gachaSlotBranch);
                     }
                 }
             }

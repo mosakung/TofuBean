@@ -31,7 +31,8 @@ public enum CustomMaterialItem {
     BUCKET_OF_TROPICAL_FISH("Bucket Tropical", new GenNormalItem(Material.TROPICAL_FISH_BUCKET)),
     CLAY_BALL("clay ball", new GenNormalItem(Material.CLAY_BALL)),
     SPONGE("Sponge", new GenNormalItem(Material.SPONGE)),
-    CASINO_COUPON("Casino Coupon", new GenCasinoCoupon());
+    CASINO_COUPON("Casino Coupon", new GenCasinoCoupon()),
+    DRAGON_BREATH("Dragon Breath", new GenNormalItem(Material.DRAGON_BREATH));
 
     private final String itemName;
     private final GenerateItemStackFunc generateItemStackFunc;

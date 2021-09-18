@@ -7,7 +7,8 @@ public enum ActionSign {
     SELL("sell"),
     COOK("cook"),
     EXCHANGE("exchange"),
-    CASINO("casino")
+    CASINO("casino"),
+    GACHAPON("gachapon")
     ;
 
     private final String actionType;
